@@ -1,3 +1,4 @@
+package prg.training;
 
 public class FirstJavaClass {
 
