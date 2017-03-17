@@ -15,7 +15,7 @@ public class Point {
 
 
     public double distance(Point b) {
-        return Math.sqrt(Math.pow((b.x - x), 2));
+        return Math.sqrt(Math.pow((b.x - x), 2) + Math.pow((b.y - y), 2));
     }
 
     @Override
