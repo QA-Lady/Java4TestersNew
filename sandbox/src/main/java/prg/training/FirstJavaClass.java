@@ -1,5 +1,8 @@
 package prg.training;
 
+/**
+ * Created by QA Lady on 3/15/2017.
+ */
 public class FirstJavaClass {
 
 
