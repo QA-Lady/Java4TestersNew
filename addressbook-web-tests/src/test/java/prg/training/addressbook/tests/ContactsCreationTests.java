@@ -1,11 +1,9 @@
 package prg.training.addressbook.tests;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import prg.training.addressbook.ContactsData;
 import prg.training.addressbook.base.TestBase;
+import prg.training.addressbook.utils.DataModel.ContactsData;
 
 /**
  * Created by QA Lady on 3/27/2017.
@@ -14,41 +12,16 @@ public class ContactsCreationTests extends TestBase {
 
     @Test(dataProvider = "ContactsInfo")
     public void addContactsTest(ContactsData contactsData) throws Exception {
-        initContactCreation();
-        completeContactsForm(contactsData);
-        new Select(driver.findElement(By.name("new_group"))).selectByVisibleText(contactsData.getGroupID());
-        submit();
-        clickOn(By.linkText("add next"));
-        submit();
-        goToHomePage();
+        appManager.getContactHelper().initContactCreation();
+        appManager.getContactHelper().completeContactsForm(contactsData);
+        appManager.getContactHelper().selectGroup4Contact(contactsData);
+        appManager.getContactHelper().submit();
+        appManager.getContactHelper().initNextContactCreation();
+        appManager.getContactHelper().submit();
+        appManager.getNavigationHelper().goToHomePage();
     }
 
-    //common contacts methods
-    public void goToHomePage() {
-        driver.findElement(By.linkText("home page")).click();
-    }
 
-    public void completeContactsForm(ContactsData contactsData) {
-        //Fill Contact's form
-        enterText(By.name("firstname"), contactsData.getFirstname());
-        enterText(By.name("lastname"), contactsData.getLastname());
-        enterText(By.name("address"), contactsData.getAddress());
-        enterText(By.name("home"), contactsData.getHomeNumber());
-        enterText(By.name("mobile"), contactsData.getPhoneNumber());
-        enterText(By.name("email"), contactsData.getEmail());
-        enterBirthdayDate(contactsData.getDay(), contactsData.getMonth(), contactsData.getYear());
-    }
-
-    public void initContactCreation() {
-        //invoke Contact creation dialog
-        driver.findElement(By.linkText("add new")).click();
-    }
-
-    protected void enterBirthdayDate(String day, String month, String year) {
-        new Select(driver.findElement(By.name("bday"))).selectByVisibleText(day);
-        new Select(driver.findElement(By.name("bmonth"))).selectByVisibleText(month);
-        enterText(By.name("byear"), year);
-    }
 
     @DataProvider(name = "ContactsInfo")
     public static Object[][] text() {

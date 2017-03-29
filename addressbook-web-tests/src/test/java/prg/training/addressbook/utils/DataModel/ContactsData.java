@@ -1,4 +1,4 @@
-package prg.training.addressbook;
+package prg.training.addressbook.utils.DataModel;
 
 public class ContactsData {
     private final String firstname;
