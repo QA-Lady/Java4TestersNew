@@ -8,10 +8,10 @@ import prg.training.addressbook.utils.appManager.AppManager;
 /**
  * Created by QA Lady on 3/28/2017.
  */
-public class GroupsHelper extends HelperBase {
+public class GroupHelper extends HelperBase {
 
 
-    public GroupsHelper(AppManager appManager) {
+    public GroupHelper(AppManager appManager) {
         super(appManager);
     }
 
@@ -24,4 +24,18 @@ public class GroupsHelper extends HelperBase {
     public void initGroupCreation() {
         clickOn(By.name("new"));
     }
+
+    public void deleteGroup(int index) {
+        clickOn(By.xpath("//span[@class='group'][" + (index) + "]/input[@name='selected[]'][1]"));
+        clickOn(By.name("delete"));
+    }
+
+
+    public void editGroupName(int index, String name) {
+        clickOn(By.xpath("//span[@class='group'][" + (index) + "]/input[@name='selected[]'][1]"));
+        clickOn(By.name("edit"));
+        enterText(By.name("group_name"), name);
+    }
+
+
 }

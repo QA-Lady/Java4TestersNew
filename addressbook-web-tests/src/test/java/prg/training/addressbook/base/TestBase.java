@@ -23,8 +23,9 @@ public class TestBase {
     }
 
     @BeforeTest
-    public void doLogin() {
+    public void testPrep() {
         appManager.getLoginHelper().loginIfNotLoggedIn("admin", "secret");
+        appManager.getNavigationHelper().goToHomePage(true);
     }
 
     @AfterSuite

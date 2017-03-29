@@ -6,14 +6,14 @@
     <node x="-386.9999999999999" y="353.8333333333334">prg.training.addressbook.utils.GroupsHelper</node>
     <node x="470.0000000000001" y="341.5">prg.training.addressbook.utils.AlertHelper</node>
     <node x="-294.6666666666667" y="991.9999999999998">prg.training.addressbook.tests.ContactsCreationTests</node>
-    <node x="47.83333333333326" y="324.16666666666663">prg.training.addressbook.utils.ContactHelper</node>
+    <node x="7.8333333333332575" y="270.16666666666663">prg.training.addressbook.utils.ContactHelper</node>
     <node x="926.8333333333335" y="343.1666666666667">prg.training.addressbook.utils.LoginHelper</node>
     <node x="131.99999999999977" y="993.6666666666667">prg.training.addressbook.tests.GroupCreationTests</node>
-    <node x="1418.6666666666665" y="690.3333333333334">prg.training.addressbook.utils.appManager.WebDriverProvider</node>
-    <node x="631.9999999999998" y="-154.66666666666652">prg.training.addressbook.base.HelperBase</node>
+    <node x="1365.3333333333333" y="690.3333333333334">prg.training.addressbook.utils.appManager.WebDriverProvider</node>
+    <node x="621.9999999999998" y="-168.16666666666652">prg.training.addressbook.base.HelperBase</node>
     <node x="1284.8333333333333" y="312.8333333333333">prg.training.addressbook.utils.NavigationHelper</node>
     <node x="-119.66666666666686" y="700.3333333333333">prg.training.addressbook.base.TestBase</node>
-    <node x="679.6666666666667" y="636.4999999999999">prg.training.addressbook.utils.appManager.AppManager</node>
+    <node x="689.6666666666667" y="649.9999999999999">prg.training.addressbook.utils.appManager.AppManager</node>
   </nodes>
   <notes />
   <edges>
@@ -73,16 +73,12 @@
       <point x="0.0" y="0.0" />
       <point x="0.0" y="0.0" />
     </edge>
-    <edge source="prg.training.addressbook.utils.appManager.AppManager" target="prg.training.addressbook.utils.appManager.WebDriverProvider">
-      <point x="0.0" y="0.0" />
-      <point x="0.0" y="0.0" />
-    </edge>
     <edge source="prg.training.addressbook.tests.GroupCreationTests" target="prg.training.addressbook.base.TestBase">
       <point x="0.0" y="0.0" />
       <point x="0.0" y="0.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.6000000000000001" x="741.9999999999998" y="560.3333333333333" />
+  <settings layout="Hierarchic Group" zoom="0.6000000000000001" x="741.9999999999998" y="540.3333333333333" />
   <SelectedNodes>
     <node>prg.training.addressbook.utils.appManager.WebDriverProvider</node>
   </SelectedNodes>

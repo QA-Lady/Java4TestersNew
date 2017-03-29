@@ -13,11 +13,11 @@ public class GroupCreationTests extends TestBase {
 
     @Test(dataProvider = "Group Form Provider")
     public void groupCreationTest(GroupData groupsData) {
-        appManager.getNavigationHelper().goToGroupsPage();
-        appManager.getGroupsHelper().initGroupCreation();
-        appManager.getGroupsHelper().completeGroupForm(groupsData);
-        appManager.getGroupsHelper().submit();
-        appManager.getNavigationHelper().returnToGroupPage();
+        appManager.getNavigationHelper().goToGroupsPage(true);
+        appManager.getGroupHelper().initGroupCreation();
+        appManager.getGroupHelper().completeGroupForm(groupsData);
+        appManager.getGroupHelper().submit();
+        appManager.getNavigationHelper().goToGroupsPage(false);
     }
 
     @DataProvider(name = "Group Form Provider")

@@ -23,4 +23,16 @@ public class AlertHelper extends HelperBase {
             return false;
         }
     }
+
+    public static void acceptAlert() {
+        if (isAlertPresent()) {
+            WebDriverProvider.getDriver().switchTo().alert().accept();
+        }
+    }
+
+    public static void dismissAlert() {
+        if (isAlertPresent()) {
+            WebDriverProvider.getDriver().switchTo().alert().dismiss();
+        }
+    }
 }

@@ -18,7 +18,7 @@ public class ContactsCreationTests extends TestBase {
         appManager.getContactHelper().submit();
         appManager.getContactHelper().initNextContactCreation();
         appManager.getContactHelper().submit();
-        appManager.getNavigationHelper().goToHomePage();
+        appManager.getNavigationHelper().goToHomePage(false);
     }
 
 

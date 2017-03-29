@@ -8,7 +8,7 @@ import prg.training.addressbook.utils.*;
  */
 public class AppManager {
 
-    private GroupsHelper groupsHelper;
+    private GroupHelper groupHelper;
     private NavigationHelper navigationHelper;
     private ContactHelper contactHelper;
     private LoginHelper loginHelper;
@@ -16,7 +16,7 @@ public class AppManager {
     private HelperBase helperBase;
 
     public void init() {
-        groupsHelper = new GroupsHelper(this);
+        groupHelper = new GroupHelper(this);
         navigationHelper = new NavigationHelper(this);
         contactHelper = new ContactHelper(this);
         loginHelper = new LoginHelper(this);
@@ -24,8 +24,8 @@ public class AppManager {
         helperBase = new HelperBase(this);
     }
 
-    public GroupsHelper getGroupsHelper() {
-        return groupsHelper;
+    public GroupHelper getGroupHelper() {
+        return groupHelper;
     }
 
     public NavigationHelper getNavigationHelper() {
