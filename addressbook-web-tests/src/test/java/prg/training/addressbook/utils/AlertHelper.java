@@ -2,8 +2,8 @@ package prg.training.addressbook.utils;
 
 import org.openqa.selenium.NoAlertPresentException;
 import prg.training.addressbook.base.HelperBase;
+import prg.training.addressbook.base.TestBase;
 import prg.training.addressbook.utils.appManager.AppManager;
-import prg.training.addressbook.utils.appManager.WebDriverProvider;
 
 /**
  * Created by QA Lady on 3/28/2017.
@@ -17,7 +17,7 @@ public class AlertHelper extends HelperBase {
 
     public static boolean isAlertPresent() {
         try {
-            WebDriverProvider.getDriver().switchTo().alert();
+            TestBase.getDriver().switchTo().alert();
             return true;
         } catch (NoAlertPresentException e) {
             return false;
@@ -26,13 +26,13 @@ public class AlertHelper extends HelperBase {
 
     public static void acceptAlert() {
         if (isAlertPresent()) {
-            WebDriverProvider.getDriver().switchTo().alert().accept();
+            TestBase.getDriver().switchTo().alert().accept();
         }
     }
 
     public static void dismissAlert() {
         if (isAlertPresent()) {
-            WebDriverProvider.getDriver().switchTo().alert().dismiss();
+            TestBase.getDriver().switchTo().alert().dismiss();
         }
     }
 }

@@ -2,13 +2,15 @@ package prg.training.addressbook.utils;
 
 import org.openqa.selenium.By;
 import prg.training.addressbook.base.HelperBase;
+import prg.training.addressbook.base.TestBase;
 import prg.training.addressbook.utils.appManager.AppManager;
-import prg.training.addressbook.utils.appManager.WebDriverProvider;
 
 /**
  * Created by QA Lady on 3/28/2017.
  */
 public class NavigationHelper extends HelperBase {
+
+    public static final String URL_HOME = "http://localhost/addressbook/";
 
     public NavigationHelper(AppManager appManager) {
         super(appManager);
@@ -26,7 +28,7 @@ public class NavigationHelper extends HelperBase {
     }
 
     private boolean onHomePage() {
-        if (WebDriverProvider.getDriver().getCurrentUrl().equals("http://localhost/addressbook/")) {
+        if (TestBase.getDriver().getCurrentUrl().equals(URL_HOME)) {
             return true;
         }
         return false;
@@ -45,7 +47,7 @@ public class NavigationHelper extends HelperBase {
     }
 
     private boolean onGroupsPage() {
-        if (WebDriverProvider.getDriver().getCurrentUrl().contains("/group.php") && WebDriverProvider.getDriver().findElements(By.name("new")).size() > 0) {
+        if (TestBase.getDriver().getCurrentUrl().contains("/group.php") && TestBase.getDriver().findElements(By.name("new")).size() > 0) {
             return true;
         }
         return false;

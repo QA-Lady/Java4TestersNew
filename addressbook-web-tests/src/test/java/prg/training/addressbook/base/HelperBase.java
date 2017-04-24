@@ -7,7 +7,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import prg.training.addressbook.utils.appManager.AppManager;
-import prg.training.addressbook.utils.appManager.WebDriverProvider;
 
 /**
  * Created by QA Lady on 3/29/2017.
@@ -39,7 +38,7 @@ public class HelperBase {
     }
 
     public WebElement getElement(By locator) {
-        WebDriverWait wait = new WebDriverWait(WebDriverProvider.getDriver(), 3);
+        WebDriverWait wait = new WebDriverWait(TestBase.getDriver(), 3);
         WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(locator));
         ((Locatable) element).getCoordinates().inViewPort();
         return element;
