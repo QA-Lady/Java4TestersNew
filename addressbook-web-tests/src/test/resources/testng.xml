@@ -1,12 +1,12 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Test Suite" data-provider-thread-count="1" thread-count="1" parallel="none" preserve-order="true">
-    <test name="GroupCreationTests ChromeTest">
-        <parameter name="browser" value="Chrome"/>
-        <classes>
-            <class name="prg.training.addressbook.tests.GroupCreationTests">
-            </class>
-        </classes>
-    </test>
+    <!--<test name="GroupCreationTests ChromeTest">-->
+    <!--<parameter name="browser" value="Chrome"/>-->
+    <!--<classes>-->
+    <!--<class name="prg.training.addressbook.tests.GroupCreationTests">-->
+    <!--</class>-->
+    <!--</classes>-->
+    <!--</test>-->
     <test name="ContactsCreationTests ChromeTest">
         <parameter name="browser" value="Chrome"/>
         <classes>

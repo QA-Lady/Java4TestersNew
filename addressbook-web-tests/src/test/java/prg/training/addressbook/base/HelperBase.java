@@ -1,7 +1,6 @@
 package prg.training.addressbook.base;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -32,9 +31,14 @@ public class HelperBase {
 
     public void enterText(By locator, String text) {
         WebElement element = getElement(locator);
-        clickOn(element);
-        element.clear();
-        element.sendKeys(text);
+        //will enter text only if text not equals null if the field doesn't already have the same text entered
+        if (text == null || element.getAttribute("value").equals(text)) {
+            return;
+        } else {
+            clickOn(element);
+            element.clear();
+            element.sendKeys(text);
+        }
     }
 
     public WebElement getElement(By locator) {
@@ -42,6 +46,17 @@ public class HelperBase {
         WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(locator));
         ((Locatable) element).getCoordinates().inViewPort();
         return element;
+    }
+
+    public boolean isElementPresent(WebDriver driver, By locator) {
+        try {
+            driver.findElement(locator);
+            return true;
+        } catch (InvalidSelectorException ex) {
+            throw ex;
+        } catch (NoSuchElementException ex) {
+            return false;
+        }
     }
 
     public void submit() {

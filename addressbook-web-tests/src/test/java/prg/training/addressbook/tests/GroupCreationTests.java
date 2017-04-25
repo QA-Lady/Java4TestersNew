@@ -23,7 +23,7 @@ public class GroupCreationTests extends TestBase {
     @DataProvider(name = "Group Form Provider")
     public static Object[][] text() {
 
-        return new Object[][]{{new GroupData("Group 1", "header 1", "footer 1")}, {new GroupData("Group 2", "header 2", "footer 2")}, {new GroupData("Group 3", "header 3", "footer 3")}};
+        return new Object[][]{{new GroupData("Group 1", null, null)}, {new GroupData("Group 2", "header 2", "footer 2")}, {new GroupData("Group 3", "header 3", "footer 3")}};
 
     }
 

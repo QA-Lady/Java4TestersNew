@@ -3,7 +3,9 @@ package prg.training.addressbook.utils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import prg.training.addressbook.base.HelperBase;
+import prg.training.addressbook.base.TestBase;
 import prg.training.addressbook.utils.DataModel.ContactsData;
 import prg.training.addressbook.utils.appManager.AppManager;
 
@@ -39,8 +41,12 @@ public class ContactHelper extends HelperBase {
         enterText(By.name("byear"), year);
     }
 
-    public void selectGroup4Contact(ContactsData contactsData) {
-        new Select(getElement(By.name("new_group"))).selectByVisibleText(contactsData.getGroupID());
+    public void selectGroup4Contact(ContactsData contactsData, boolean contactCreation) {
+        if (contactCreation) {
+            new Select(getElement(By.name("new_group"))).selectByVisibleText(contactsData.getGroupID());
+        } else {
+            Assert.assertFalse(isElementPresent(TestBase.getDriver(), By.name("new_group")));
+        }
     }
 
     public void initNextContactCreation() {

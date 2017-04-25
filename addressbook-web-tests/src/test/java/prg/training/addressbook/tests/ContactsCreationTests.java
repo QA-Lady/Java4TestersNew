@@ -14,7 +14,7 @@ public class ContactsCreationTests extends TestBase {
     public void addContactsTest(ContactsData contactsData) throws Exception {
         appManager.getContactHelper().initContactCreation();
         appManager.getContactHelper().completeContactsForm(contactsData);
-        appManager.getContactHelper().selectGroup4Contact(contactsData);
+        appManager.getContactHelper().selectGroup4Contact(contactsData, true);
         appManager.getContactHelper().submit();
         appManager.getContactHelper().initNextContactCreation();
         appManager.getContactHelper().submit();

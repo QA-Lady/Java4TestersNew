@@ -17,18 +17,21 @@ public class NavigationHelper extends HelperBase {
     }
 
     public void goToHomePage(boolean goFromMainPage) {
-        if (!onHomePage()) {
-            if (goFromMainPage) {
-                clickOn(By.linkText("home"));
-            } else {
-                //return to Groups page from success message link
-                clickOn(By.linkText("home page"));
-            }
+        if (onHomePage()) {
+            return;
         }
+
+        if (goFromMainPage) {
+            clickOn(By.linkText("home"));
+        } else {
+            //return to Groups page from success message link
+            clickOn(By.linkText("home page"));
+        }
+
     }
 
     private boolean onHomePage() {
-        if (TestBase.getDriver().getCurrentUrl().equals(URL_HOME)) {
+        if (TestBase.getDriver().getCurrentUrl().equals(URL_HOME) && isElementPresent(TestBase.getDriver(), By.id("maintable"))) {
             return true;
         }
         return false;
@@ -47,7 +50,7 @@ public class NavigationHelper extends HelperBase {
     }
 
     private boolean onGroupsPage() {
-        if (TestBase.getDriver().getCurrentUrl().contains("/group.php") && TestBase.getDriver().findElements(By.name("new")).size() > 0) {
+        if (TestBase.getDriver().getCurrentUrl().contains("/group.php") && isElementPresent(TestBase.getDriver(), By.name("new"))) {
             return true;
         }
         return false;
