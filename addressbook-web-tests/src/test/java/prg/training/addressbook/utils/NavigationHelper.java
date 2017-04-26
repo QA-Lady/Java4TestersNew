@@ -1,6 +1,7 @@
 package prg.training.addressbook.utils;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import prg.training.addressbook.base.HelperBase;
 import prg.training.addressbook.base.TestBase;
 import prg.training.addressbook.utils.appManager.AppManager;
@@ -27,6 +28,8 @@ public class NavigationHelper extends HelperBase {
             //return to Groups page from success message link
             clickOn(By.linkText("home page"));
         }
+
+        TestBase.wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("maintable")));
 
     }
 

@@ -1,9 +1,13 @@
 package prg.training.addressbook.utils;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import prg.training.addressbook.base.HelperBase;
+import prg.training.addressbook.base.TestBase;
 import prg.training.addressbook.utils.DataModel.GroupData;
 import prg.training.addressbook.utils.appManager.AppManager;
+
+import java.util.List;
 
 /**
  * Created by QA Lady on 3/28/2017.
@@ -37,5 +41,19 @@ public class GroupHelper extends HelperBase {
         enterText(By.name("group_name"), name);
     }
 
+    public void createGroup(GroupData groupsData) {
+        initGroupCreation();
+        completeGroupForm(groupsData);
+        submit();
+        appManager.getNavigationHelper().goToGroupsPage(false);
+    }
 
+    public boolean isGroupPresent() {
+        return isElementPresent(TestBase.getDriver(), By.xpath("//input[@name='selected[]'][1]"));
+    }
+
+    public List<WebElement> getGroups() {
+        List<WebElement> groups = TestBase.getDriver().findElements(By.xpath("//input[@name='selected[]'][1]"));
+        return groups;
+    }
 }

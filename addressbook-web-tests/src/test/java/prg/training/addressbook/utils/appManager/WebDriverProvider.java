@@ -48,9 +48,9 @@ public class WebDriverProvider {
         return driver;
     }
 
-    public static WebDriver getDriver(@Optional String browser) {
+    public static WebDriver getDriver(@Optional String browser, boolean forceCreate) {
         WebDriver driver = threadLocalDriver.get();
-        if (driver == null) {
+        if (driver == null || forceCreate) {
             driver = createAndConfigDriver(browser);
         }
         return driver;

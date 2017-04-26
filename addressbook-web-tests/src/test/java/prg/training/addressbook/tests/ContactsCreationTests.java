@@ -12,16 +12,13 @@ public class ContactsCreationTests extends TestBase {
 
     @Test(dataProvider = "ContactsInfo")
     public void addContactsTest(ContactsData contactsData) throws Exception {
-        appManager.getContactHelper().initContactCreation();
-        appManager.getContactHelper().completeContactsForm(contactsData);
-        appManager.getContactHelper().selectGroup4Contact(contactsData, true);
-        appManager.getContactHelper().submit();
+        appManager.getNavigationHelper().goToHomePage(true);
+        appManager.getContactHelper().createContact(contactsData, false);
         appManager.getContactHelper().initNextContactCreation();
         appManager.getContactHelper().submit();
         appManager.getNavigationHelper().goToHomePage(false);
+
     }
-
-
 
     @DataProvider(name = "ContactsInfo")
     public static Object[][] text() {

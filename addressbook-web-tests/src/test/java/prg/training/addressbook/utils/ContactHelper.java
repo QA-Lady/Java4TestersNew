@@ -9,6 +9,8 @@ import prg.training.addressbook.base.TestBase;
 import prg.training.addressbook.utils.DataModel.ContactsData;
 import prg.training.addressbook.utils.appManager.AppManager;
 
+import java.util.List;
+
 /**
  * Created by QA Lady on 3/28/2017.
  */
@@ -42,10 +44,16 @@ public class ContactHelper extends HelperBase {
     }
 
     public void selectGroup4Contact(ContactsData contactsData, boolean contactCreation) {
-        if (contactCreation) {
-            new Select(getElement(By.name("new_group"))).selectByVisibleText(contactsData.getGroupID());
+        String groupID = contactsData.getGroupID();
+        if (groupID == null) {
+            return;
         } else {
-            Assert.assertFalse(isElementPresent(TestBase.getDriver(), By.name("new_group")));
+            if (contactCreation) {
+                Select groupSelect = new Select(getElement(By.name("new_group")));
+                groupSelect.selectByVisibleText(groupID);
+            } else {
+                Assert.assertFalse(isElementPresent(TestBase.getDriver(), By.name("new_group")));
+            }
         }
     }
 
@@ -64,13 +72,31 @@ public class ContactHelper extends HelperBase {
 
 
     public void editContactName(int index, String name) {
-        clickOn(By.xpath("//tr[@name='entry'][" + (index + 1) + "]" + "//input[@name='selected[]']"));
+        clickOn(By.xpath("//tr[@name='entry'][" + (index) + "]" + "//input[@name='selected[]']"));
         //invoke Contact Edit
-        clickOn(By.xpath("//tr[@name='entry'][" + (index + 1) + "]" + "/td[7]/a/img"));
+        clickOn(By.xpath("//tr[@name='entry'][" + (index) + "]" + "/td[7]/a/img"));
         WebElement modifyBtn = getElement(By.xpath("//input[@value='Modify']"));
         clickOn(modifyBtn);
         enterText(By.name("firstname"), name);
 
     }
 
+    public void createContact(ContactsData contactsData, boolean goToHomePage) {
+        appManager.getContactHelper().initContactCreation();
+        appManager.getContactHelper().completeContactsForm(contactsData);
+        appManager.getContactHelper().selectGroup4Contact(contactsData, true);
+        appManager.getContactHelper().submit();
+        if (goToHomePage) {
+            appManager.getNavigationHelper().goToHomePage(false);
+        }
+    }
+
+    public boolean isContactPresent() {
+        return isElementPresent(TestBase.getDriver(), By.xpath("//tr[@name='entry']//input[@name='selected[]']"));
+    }
+
+    public List<WebElement> getContacts() {
+        List<WebElement> contacts = TestBase.getDriver().findElements(By.xpath("//tr[@name='entry']//input[@name='selected[]']"));
+        return contacts;
+    }
 }

@@ -14,11 +14,9 @@ public class GroupCreationTests extends TestBase {
     @Test(dataProvider = "Group Form Provider")
     public void groupCreationTest(GroupData groupsData) {
         appManager.getNavigationHelper().goToGroupsPage(true);
-        appManager.getGroupHelper().initGroupCreation();
-        appManager.getGroupHelper().completeGroupForm(groupsData);
-        appManager.getGroupHelper().submit();
-        appManager.getNavigationHelper().goToGroupsPage(false);
+        appManager.getGroupHelper().createGroup(groupsData);
     }
+
 
     @DataProvider(name = "Group Form Provider")
     public static Object[][] text() {
