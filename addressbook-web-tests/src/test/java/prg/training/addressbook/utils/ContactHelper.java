@@ -82,6 +82,16 @@ public class ContactHelper extends HelperBase {
 
     }
 
+    public void editContact(int index, ContactsData contactsData) {
+        clickOn(By.xpath("//tr[@name='entry'][" + (index) + "]" + "//input[@name='selected[]']"));
+        //invoke Contact Edit
+        clickOn(By.xpath("//tr[@name='entry'][" + (index) + "]" + "/td[7]/a/img"));
+        WebElement modifyBtn = getElement(By.xpath("//input[@value='Modify']"));
+        clickOn(modifyBtn);
+        appManager.getContactHelper().completeContactsForm(contactsData);
+
+    }
+
     public void createContact(ContactsData contactsData, boolean goToHomePage) {
         appManager.getContactHelper().initContactCreation();
         appManager.getContactHelper().completeContactsForm(contactsData);
@@ -107,7 +117,8 @@ public class ContactHelper extends HelperBase {
         for (WebElement row : rows) {
             String name = row.findElement(By.xpath("./td[3]")).getText();
             String lastname = row.findElement(By.xpath("./td[2]")).getText();
-            ContactsData contact = new ContactsData(name, lastname, null, null, null, null, null, null, null, null);
+            int id = Integer.parseInt(row.findElement(By.tagName("input")).getAttribute("value"));
+            ContactsData contact = new ContactsData(id, name, lastname, null, null, null, null, null, null, null, null);
             contacts.add(contact);
         }
         return contacts;

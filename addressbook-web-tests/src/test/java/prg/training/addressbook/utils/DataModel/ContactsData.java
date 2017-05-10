@@ -1,6 +1,7 @@
 package prg.training.addressbook.utils.DataModel;
 
 public class ContactsData {
+    private int contactID;
     private String firstname;
     private String lastname;
     private String address;
@@ -13,6 +14,22 @@ public class ContactsData {
     private String year;
 
     public ContactsData(String firstname, String lastname, String address, String homeNumber, String phoneNumber, String email, String groupID, String day, String month, String year) {
+        //to ensure that new group will always be sorted last by id
+        this.contactID = Integer.MAX_VALUE;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.address = address;
+        this.homeNumber = homeNumber;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.groupID = groupID;
+        this.day = day;
+        this.month = month;
+        this.year = year;
+    }
+
+    public ContactsData(int contactID, String firstname, String lastname, String address, String homeNumber, String phoneNumber, String email, String groupID, String day, String month, String year) {
+        this.contactID = contactID;
         this.firstname = firstname;
         this.lastname = lastname;
         this.address = address;
@@ -105,6 +122,13 @@ public class ContactsData {
         this.year = year;
     }
 
+    public int getContactID() {
+        return contactID;
+    }
+
+    public void setContactID(int contactID) {
+        this.contactID = contactID;
+    }
 
     @Override
     public String toString() {

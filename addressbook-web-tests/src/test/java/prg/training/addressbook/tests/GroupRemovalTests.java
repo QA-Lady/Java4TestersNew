@@ -48,7 +48,7 @@ public class GroupRemovalTests extends TestBase {
         afterGroupRemoval.sort(byId);
         System.out.println("Before: " + beforeGroupRemoval);
         System.out.println("After: " + afterGroupRemoval);
-        Assert.assertEquals(beforeGroupRemoval, afterGroupRemoval);
+        Assert.assertEquals(afterGroupRemoval, beforeGroupRemoval);
     }
 
 

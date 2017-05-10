@@ -36,14 +36,13 @@ public class ContactRemovalTests extends TestBase {
         before.remove(index - 1/*xpath starts index from 1 and array list starts from 0*/);
 
         //sorting approach starting from java 8
-        Comparator<? super ContactsData> byName = (o1, o2) -> {
-            int res = o1.getFirstname().compareTo(o2.getFirstname());
-            return res == 0 ? o1.getLastname().compareTo(o2.getLastname()) : res;
-        };
-        before.sort(byName);
-        after.sort(byName);
+        Comparator<? super ContactsData> byId = Comparator.comparingInt(ContactsData::getContactID);
+        before.sort(byId);
+        after.sort(byId);
+        System.out.println(before);
+        System.out.println(after);
 
-        Assert.assertEquals(before, after);
+        Assert.assertEquals(after, before);
     }
 
     @DataProvider(name = "Contact Index Provider")

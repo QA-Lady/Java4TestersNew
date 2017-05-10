@@ -47,7 +47,7 @@ public class GroupModificationTests extends TestBase {
         beforeGroupEdit.sort(byId);
         afterGroupEdit.sort(byId);
 
-        Assert.assertEquals(beforeGroupEdit, afterGroupEdit);
+        Assert.assertEquals(afterGroupEdit, beforeGroupEdit);
     }
 
     @DataProvider(name = "Group Name Provider")

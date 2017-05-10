@@ -28,20 +28,27 @@ public class ContactsCreationTests extends TestBase {
 
         List<ContactsData> after = appManager.getContactHelper().getContactList();
         //available starting from java 8
+        contactsData.setContactID(after.stream().max(Comparator.comparingInt(ContactsData::getContactID)).get().getContactID());
         before.add(contactsData);
         //sorting approach before java 8
 //        Collections.sort(before);
 //        Collections.sort(after);
 
         //sorting approach starting from java 8
-        Comparator<? super ContactsData> byName = (o1, o2) -> {
-            int res = o1.getFirstname().compareTo(o2.getFirstname());
-            return res == 0 ? o1.getLastname().compareTo(o2.getLastname()) : res;
-        };
-        before.sort(byName);
-        after.sort(byName);
+        Comparator<? super ContactsData> byId = Comparator.comparingInt(ContactsData::getContactID);
 
-        Assert.assertEquals(before, after);
+        //comparator by name and then by last name
+//        Comparator<? super ContactsData> byName = (o1, o2) -> {
+//            int res = o1.getFirstname().compareTo(o2.getFirstname());
+//            return res == 0 ? o1.getLastname().compareTo(o2.getLastname()) : res;
+//        };
+
+        before.sort(byId);
+        after.sort(byId);
+        System.out.println(before);
+        System.out.println(after);
+
+        Assert.assertEquals(after, before);
 
     }
 

@@ -1,0 +1,32 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Test Suite" data-provider-thread-count="1" thread-count="3" parallel="tests" preserve-order="true"
+       group-by-instances="true">
+    <test name="GroupCreationTests ChromeTest">
+        <parameter name="browser" value="Chrome"/>
+        <classes>
+            <class name="prg.training.addressbook.tests.GroupCreationTests">
+            </class>
+        </classes>
+    </test>
+    <test name="ContactsCreationTests ChromeTest">
+        <parameter name="browser" value="Chrome"/>
+        <classes>
+            <class name="prg.training.addressbook.tests.ContactsCreationTests">
+            </class>
+        </classes>
+    </test>
+    <test name="ContactRemovalTests Firefox">
+        <parameter name="browser" value="firefox"/>
+        <classes>
+            <class name="prg.training.addressbook.tests.ContactRemovalTests">
+            </class>
+        </classes>
+    </test>
+    <!--<test name="ContactModificationTests IE">-->
+    <!--<parameter name="browser" value="internet explorer"/>-->
+    <!--<classes>-->
+    <!--<class name="prg.training.addressbook.tests.ContactModificationTests">-->
+    <!--</class>-->
+    <!--</classes>-->
+    <!--</test>-->
+</suite>
