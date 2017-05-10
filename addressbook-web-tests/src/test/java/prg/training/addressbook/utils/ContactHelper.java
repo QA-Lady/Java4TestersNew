@@ -9,6 +9,7 @@ import prg.training.addressbook.base.TestBase;
 import prg.training.addressbook.utils.DataModel.ContactsData;
 import prg.training.addressbook.utils.appManager.AppManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -99,4 +100,17 @@ public class ContactHelper extends HelperBase {
         List<WebElement> contacts = TestBase.getDriver().findElements(By.xpath("//tr[@name='entry']//input[@name='selected[]']"));
         return contacts;
     }
+
+    public List<ContactsData> getContactList() {
+        List<ContactsData> contacts = new ArrayList<ContactsData>();
+        List<WebElement> rows = TestBase.getDriver().findElements(By.xpath("//tr[@name='entry']"));
+        for (WebElement row : rows) {
+            String name = row.findElement(By.xpath("./td[3]")).getText();
+            String lastname = row.findElement(By.xpath("./td[2]")).getText();
+            ContactsData contact = new ContactsData(name, lastname, null, null, null, null, null, null, null, null);
+            contacts.add(contact);
+        }
+        return contacts;
+    }
+
 }

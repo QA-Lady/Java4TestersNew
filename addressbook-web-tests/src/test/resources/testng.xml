@@ -7,20 +7,27 @@
     <!--</class>-->
     <!--</classes>-->
     <!--</test>-->
-    <!--<test name="GroupModificationTests ChromeTest">-->
-    <!--<parameter name="browser" value="Chrome"/>-->
-    <!--<classes>-->
-    <!--<class name="prg.training.addressbook.tests.GroupModificationTests">-->
-    <!--</class>-->
-    <!--</classes>-->
-    <!--</test>-->
-    <test name="ContactModificationTests Firefox">
-        <parameter name="browser" value="firefox"/>
+    <test name="GroupModificationTests ChromeTest">
+        <parameter name="browser" value="Chrome"/>
         <classes>
-            <class name="prg.training.addressbook.tests.ContactModificationTests">
+            <class name="prg.training.addressbook.tests.GroupModificationTests">
             </class>
         </classes>
     </test>
+    <!--<test name="GroupRemovalTests ChromeTest">-->
+    <!--<parameter name="browser" value="Chrome"/>-->
+    <!--<classes>-->
+    <!--<class name="prg.training.addressbook.tests.GroupRemovalTests">-->
+    <!--</class>-->
+    <!--</classes>-->
+    <!--</test>-->
+    <!--<test name="ContactModificationTests Firefox">-->
+    <!--<parameter name="browser" value="firefox"/>-->
+    <!--<classes>-->
+    <!--<class name="prg.training.addressbook.tests.ContactModificationTests">-->
+    <!--</class>-->
+    <!--</classes>-->
+    <!--</test>-->
     <!--<test name="ContactRemovalTests Firefox">-->
     <!--<parameter name="browser" value="firefox"/>-->
     <!--<classes>-->
