@@ -133,7 +133,8 @@ public class ContactsData {
     @Override
     public String toString() {
         return "ContactsData{" +
-                "firstname='" + firstname + '\'' +
+                "contactID=" + contactID +
+                ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 '}';
     }

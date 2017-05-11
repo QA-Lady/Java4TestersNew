@@ -64,7 +64,9 @@ public class ContactHelper extends HelperBase {
     }
 
     public void deleteContact(int index) {
-        clickOn(By.xpath("//tr[" + index + "]" + "//input[@name='selected[]']"));
+        clickOn(By.xpath("//tr[@name='entry'][" + (index) + "]" + "//input[@name='selected[]']"));
+        int id = Integer.parseInt(getElement(By.xpath("//tr[@name='entry'][" + (index) + "]" + "//input[@name='selected[]']")).getAttribute("value"));
+        System.out.println("Going to delete contact with contact ID: " + id);
         //click on Delete button
         WebElement deleteBtn = getElement(By.xpath("//input[@value='Delete']"));
         clickOn(deleteBtn);
@@ -83,6 +85,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public void editContact(int index, ContactsData contactsData) {
+        //select checkbox
         clickOn(By.xpath("//tr[@name='entry'][" + (index) + "]" + "//input[@name='selected[]']"));
         //invoke Contact Edit
         clickOn(By.xpath("//tr[@name='entry'][" + (index) + "]" + "/td[7]/a/img"));

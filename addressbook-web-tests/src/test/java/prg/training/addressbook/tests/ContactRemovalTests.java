@@ -27,20 +27,22 @@ public class ContactRemovalTests extends TestBase {
             }
         }
         List<ContactsData> before = appManager.getContactHelper().getContactList();
+        System.out.println("Contact ID of element [" + index + "] = " + before.get(index - 1/*xpath starts index from 1 and array list starts from 0*/).getContactID());
+
         appManager.getContactHelper().deleteContact(index);
         appManager.getContactHelper().checkSuccessMessage(By.xpath("//div[@class='msgbox']"), "Record successful deleted");
         appManager.getNavigationHelper().goToHomePage(true);
         List<ContactsData> after = appManager.getContactHelper().getContactList();
 
         //available starting from java 8
+        //removed deleted contact to compare the remaining contacts in before and after lists
         before.remove(index - 1/*xpath starts index from 1 and array list starts from 0*/);
 
         //sorting approach starting from java 8
         Comparator<? super ContactsData> byId = Comparator.comparingInt(ContactsData::getContactID);
+
         before.sort(byId);
         after.sort(byId);
-        System.out.println(before);
-        System.out.println(after);
 
         Assert.assertEquals(after, before);
     }

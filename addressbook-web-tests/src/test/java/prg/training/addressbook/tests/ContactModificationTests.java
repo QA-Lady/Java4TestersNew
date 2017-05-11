@@ -38,9 +38,10 @@ public class ContactModificationTests extends TestBase {
         List<ContactsData> after = appManager.getContactHelper().getContactList();
 
         //available starting from java 8
+        int id = before.get(index - 1/*xpath starts index from 1 and array list starts from 0*/).getContactID();
         before.remove(index - 1/*xpath starts index from 1 and array list starts from 0*/);
 
-        contact.setContactID(after.stream().max(Comparator.comparingInt(ContactsData::getContactID)).get().getContactID());
+        contact.setContactID(id);
         before.add(contact);
 
 //        sorting approach starting from java 8
@@ -48,6 +49,9 @@ public class ContactModificationTests extends TestBase {
 
         before.sort(byId);
         after.sort(byId);
+
+        System.out.println(before);
+        System.out.println(after);
 
         Assert.assertEquals(after, before);
 
