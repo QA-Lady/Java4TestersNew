@@ -21,7 +21,7 @@ public class ContactModificationTestsOld extends TestBase {
     @Test(dataProvider = "Contact Name Provider", enabled = false)
     public void editContact(int index, String name) {
         appManager().goTo().homePage(true);
-        int contactsSize = appManager().contactHelper().getContacts().size();
+        int contactsSize = appManager().contactHelper().getContactsCount();
         if (!appManager().contactHelper().isContactPresent() || contactsSize < index) {
             for (int i = 0; i <= index - contactsSize; i++) {
                 String firstname = "firstname" + (i + 1);

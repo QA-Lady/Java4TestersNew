@@ -6,7 +6,8 @@ public class ContactsData {
     private String lastname;
     private String address;
     private String homeNumber;
-    private String phoneNumber;
+    private String mobileNumber;
+    private String workNumber;
     private String email;
     private String group;
     private String day;
@@ -30,8 +31,12 @@ public class ContactsData {
         return homeNumber;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public String getWorkNumber() {
+        return workNumber;
     }
 
     public String getEmail() {
@@ -78,8 +83,13 @@ public class ContactsData {
         return this;
     }
 
-    public ContactsData withPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public ContactsData withMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+        return this;
+    }
+
+    public ContactsData withWorkNumber(String workNumber) {
+        this.workNumber = workNumber;
         return this;
     }
 
@@ -129,13 +139,15 @@ public class ContactsData {
 
         ContactsData that = (ContactsData) o;
 
+        if (contactID != that.contactID) return false;
         if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
         return lastname != null ? lastname.equals(that.lastname) : that.lastname == null;
     }
 
     @Override
     public int hashCode() {
-        int result = firstname != null ? firstname.hashCode() : 0;
+        int result = contactID;
+        result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
         result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
         return result;
     }

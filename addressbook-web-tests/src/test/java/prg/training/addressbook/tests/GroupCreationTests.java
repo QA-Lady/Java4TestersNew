@@ -30,6 +30,16 @@ public class GroupCreationTests extends TestBase {
         assertThat(after, equalTo(before.withAdded(groupsData.withGroupID(after.stream().mapToInt((g) -> g.getGroupID()).max().getAsInt()))));
     }
 
+    @Test(dataProvider = "Invalid Group Form Provider")
+    public void badGroupCreationTest(GroupData groupsData) {
+        appManager().goTo().groupsPage(true);
+        Groups before = appManager().groupHelper().allGroups();
+        appManager().groupHelper().createGroup(groupsData);
+        // хеширование  - предварительная проверка при помощи более быстрой операции
+        assertThat(appManager().groupHelper().getGroupCount(), equalTo(before.size()));
+        Groups after = appManager().groupHelper().allGroups();
+        assertThat(after, equalTo(before));
+    }
 
     @DataProvider(name = "Group Form Provider")
     public static Object[][] text() {
@@ -37,6 +47,12 @@ public class GroupCreationTests extends TestBase {
         return new Object[][]{{new GroupData().withGroupName("Group 1")}, {new GroupData().withGroupName("Group 2").withHeader("header 2").withFooter("footer 2")}, {new GroupData().withGroupName("Group 3").withHeader("header 3").withFooter("footer 3")}};
 //when not default constructors were available
         //        return new Object[][]{{new GroupData("Group 1", null, null)}, {new GroupData("Group 2", "header 2", "footer 2")}, {new GroupData("Group 3", "header 3", "footer 3")}};
+
+    }
+
+    @DataProvider(name = "Invalid Group Form Provider")
+    public static Object[][] invalidGroupName() {
+        return new Object[][]{{new GroupData().withGroupName("Group 1'")}, {new GroupData().withGroupName("Group 2'").withHeader("header 2").withFooter("footer 2")}};
 
     }
 

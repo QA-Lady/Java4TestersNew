@@ -32,14 +32,13 @@ public class GroupModificationTests extends TestBase {
 
     @Test(dataProvider = "Group Name Provider")
     public void editGroupTest(String name) {
-
         Groups beforeGroupEdit = appManager().groupHelper().allGroups();
         GroupData modifiedGroup = beforeGroupEdit.iterator().next();
         GroupData group = new GroupData().withGroupID(modifiedGroup.getGroupID()).withGroupName(name).withHeader("header").withFooter("footer");
         appManager().groupHelper().editAndCheckSuccess(group);
-
+        // хеширование  - предварительная проверка при помощи более быстрой операции
+        assertThat(appManager().groupHelper().getGroupCount(), equalTo(beforeGroupEdit.size()));
         Groups afterGroupEdit = appManager().groupHelper().allGroups();
-        assertThat(beforeGroupEdit.size(), equalTo(afterGroupEdit.size()));
         assertThat(afterGroupEdit, equalTo(beforeGroupEdit.without(modifiedGroup).withAdded(group)));
     }
 

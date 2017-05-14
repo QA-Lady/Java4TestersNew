@@ -20,12 +20,12 @@ public class ContactModificationTests extends TestBase {
     private void preconditionsPrep() {
         appManager().goTo().homePage(true);
         int index = 8;
-        int contactsSize = appManager().contactHelper().getContacts().size();
+        int contactsSize = appManager().contactHelper().getContactsCount();
         if (contactsSize < index) {
             for (int i = 0; i <= index - contactsSize; i++) {
                 String firstname = "firstname" + (i + 1);
                 System.out.println("No contacts found or contacts size: " + contactsSize + " < " + index + " going to create contact with name: " + firstname);
-                appManager().contactHelper().createContact(new ContactsData().withFirstname(firstname).withLastname("lastname" + (i + 1)).withAddress("address1").withHomeNumber("1").withPhoneNumber("7324678090").withEmail("email1@ya.ru").withDay("5").withMonth("December").withYear("1975"), true);
+                appManager().contactHelper().createContact(new ContactsData().withFirstname(firstname).withLastname("lastname" + (i + 1)).withAddress("address1").withHomeNumber(RandomStringUtils.randomNumeric(7)).withMobileNumber(RandomStringUtils.randomNumeric(3) + " " + RandomStringUtils.randomNumeric(3) + " " + RandomStringUtils.randomNumeric(4)).withWorkNumber(RandomStringUtils.randomNumeric(3) + "-" + RandomStringUtils.randomNumeric(3) + "-" + RandomStringUtils.randomNumeric(4)).withEmail("email1@ya.ru").withDay("5").withMonth("December").withYear("1975"), true);
             }
         }
     }
@@ -33,17 +33,18 @@ public class ContactModificationTests extends TestBase {
 
     @Test
     public void editContact() {
-
         Contacts before = appManager().contactHelper().allContacts();
         ContactsData modifiedContact = before.iterator().next();
         ContactsData contact = new ContactsData().withContactID(modifiedContact.getContactID()).withFirstname("new firstname")
                 .withLastname("new lastname").withAddress("new address" + RandomStringUtils.randomAlphabetic(5))
                 .withHomeNumber(RandomStringUtils.randomNumeric(2))
-                .withPhoneNumber(RandomStringUtils.randomNumeric(11))
+                .withMobileNumber(RandomStringUtils.randomNumeric(11))
                 .withEmail(RandomStringUtils.randomAlphanumeric(5) + "@ya.ru")
                 .withDay("5").withMonth("December").withYear("1975");
 
         appManager().contactHelper().editAndCheckSuccess(contact);
+        // хеширование  - предварительная проверка при помощи более быстрой операции
+        assertThat(appManager().contactHelper().getContactsCount(), equalTo(before.size()));
         Contacts after = appManager().contactHelper().allContacts();
 
         System.out.println(before.without(modifiedContact).withAdded(contact));

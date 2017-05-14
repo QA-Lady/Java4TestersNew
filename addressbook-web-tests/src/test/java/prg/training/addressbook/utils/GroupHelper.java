@@ -46,6 +46,7 @@ public class GroupHelper extends HelperBase {
         initGroupCreation();
         completeGroupForm(groupsData);
         submit();
+        groupsCache = null;
         appManager.goTo().groupsPage(false);
     }
 
@@ -56,6 +57,7 @@ public class GroupHelper extends HelperBase {
         update();
         checkSuccessMessage(By.xpath("//div[@class='msgbox']"), "Group record has been updated.\n" +
                 "return to the group page");
+        groupsCache = null;
         appManager.goTo().groupsPage(false);
     }
 
@@ -63,6 +65,7 @@ public class GroupHelper extends HelperBase {
         deleteGroupById(groupToDelete.getGroupID());
         checkSuccessMessage(By.xpath("//div[@class='msgbox']"), "Group has been removed.\n" +
                 "return to the group page");
+        groupsCache = null;
         appManager.goTo().groupsPage(false);
     }
 
@@ -79,20 +82,24 @@ public class GroupHelper extends HelperBase {
         return TestBase.getDriver().findElements(By.xpath("//input[@name='selected[]']")).size();
     }
 
+    private Groups groupsCache = null;
+
     public Groups allGroups() {
-        Groups groups = new Groups();
+        if (groupsCache != null) {
+            return new Groups(groupsCache);
+        }
+        groupsCache = new Groups();
         try {
             List<WebElement> elements = TestBase.wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector("span.group")));
             for (WebElement element : elements) {
                 String name = element.getText();
                 int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-                groups.add(new GroupData().withGroupName(name).withGroupID(id));
+                groupsCache.add(new GroupData().withGroupName(name).withGroupID(id));
             }
         } catch (Exception e) {
             System.out.println("No Groups found on page");
-            ;
         }
-        return groups;
+        return new Groups(groupsCache);
     }
 
 

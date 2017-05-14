@@ -35,9 +35,9 @@ public class GroupRemovalTests extends TestBase {
         Groups beforeGroupRemoval = appManager().groupHelper().allGroups();
         GroupData deletedGroup = beforeGroupRemoval.iterator().next();
         appManager().groupHelper().deleteByIdAndCheckSuccess(deletedGroup);
-        //
+        // хеширование  - предварительная проверка при помощи более быстрой операции
+        assertThat(appManager().groupHelper().getGroupCount(), equalTo(beforeGroupRemoval.size() - 1));
         Groups afterGroupRemoval = appManager().groupHelper().allGroups();
-        assertThat(afterGroupRemoval.size(), equalTo(beforeGroupRemoval.size() - 1));
         assertThat(afterGroupRemoval, equalTo(beforeGroupRemoval.without(deletedGroup)));
     }
 

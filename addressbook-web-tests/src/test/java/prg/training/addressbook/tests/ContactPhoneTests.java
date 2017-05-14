@@ -2,19 +2,17 @@ package prg.training.addressbook.tests;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import prg.training.addressbook.base.TestBase;
-import prg.training.addressbook.utils.DataModel.Contacts;
 import prg.training.addressbook.utils.DataModel.ContactsData;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * Created by QA Lady on 3/29/2017.
+ * Created by QA Lady on 5/14/2017.
  */
-public class ContactRemovalTests extends TestBase {
+public class ContactPhoneTests extends TestBase {
 
     @BeforeMethod
     private void preconditionsPrep() {
@@ -31,22 +29,18 @@ public class ContactRemovalTests extends TestBase {
     }
 
     @Test
-    public void deleteContact() {
-        Contacts before = appManager().contactHelper().allContacts();
-        ContactsData deletedContact = before.iterator().next();
-        appManager().contactHelper().deleteAndCheckSuccess(deletedContact);
-        // хеширование  - предварительная проверка при помощи более быстрой операции
-        assertThat(appManager().contactHelper().getContactsCount(), equalTo(before.size() - 1));
-        Contacts after = appManager().contactHelper().allContacts();
-        assertThat(after, equalTo(before.without(deletedContact)));
-    }
+    public void testContactPhones() {
+        appManager().goTo().homePage(true);
+        ContactsData contact = appManager().contactHelper().allContacts().iterator().next();
+        ContactsData contactInfoFromEditForm = appManager().contactHelper().infoFromEditForm(contact);
 
-
-    @DataProvider(name = "Contact Index Provider")
-    public static Object[][] indexProvider() {
-
-        return new Object[][]{{2}, {3}, {5}};
+        assertThat(contact.getHomeNumber(), equalTo(cleaned(contactInfoFromEditForm.getHomeNumber())));
+        assertThat(contact.getMobileNumber(), equalTo(cleaned(contactInfoFromEditForm.getMobileNumber())));
+        assertThat(contact.getWorkNumber(), equalTo(cleaned(contactInfoFromEditForm.getWorkNumber())));
 
     }
 
+    public String cleaned(String phone) {
+        return phone.replaceAll("\\s", "").replaceAll("[-()]", "");
+    }
 }
