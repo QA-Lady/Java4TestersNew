@@ -17,7 +17,7 @@ public class NavigationHelper extends HelperBase {
         super(appManager);
     }
 
-    public void goToHomePage(boolean goFromMainPage) {
+    public void homePage(boolean goFromMainPage) {
         if (onHomePage()) {
             return;
         }
@@ -41,7 +41,7 @@ public class NavigationHelper extends HelperBase {
     }
 
 
-    public void goToGroupsPage(boolean goFromMainPage) {
+    public void groupsPage(boolean goFromMainPage) {
         if (!onGroupsPage()) {
             if (goFromMainPage) {
                 clickOn(By.linkText("groups"));

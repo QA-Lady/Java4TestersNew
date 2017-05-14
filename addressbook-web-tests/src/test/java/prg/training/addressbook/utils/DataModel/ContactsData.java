@@ -1,46 +1,18 @@
 package prg.training.addressbook.utils.DataModel;
 
 public class ContactsData {
-    private int contactID;
+    private int contactID = Integer.MAX_VALUE;
     private String firstname;
     private String lastname;
     private String address;
     private String homeNumber;
     private String phoneNumber;
     private String email;
-    private String groupID;
+    private String group;
     private String day;
     private String month;
     private String year;
 
-    public ContactsData(String firstname, String lastname, String address, String homeNumber, String phoneNumber, String email, String groupID, String day, String month, String year) {
-        //to ensure that new group will always be sorted last by id
-        this.contactID = Integer.MAX_VALUE;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.address = address;
-        this.homeNumber = homeNumber;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.groupID = groupID;
-        this.day = day;
-        this.month = month;
-        this.year = year;
-    }
-
-    public ContactsData(int contactID, String firstname, String lastname, String address, String homeNumber, String phoneNumber, String email, String groupID, String day, String month, String year) {
-        this.contactID = contactID;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.address = address;
-        this.homeNumber = homeNumber;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.groupID = groupID;
-        this.day = day;
-        this.month = month;
-        this.year = year;
-    }
 
     public String getFirstname() {
         return firstname;
@@ -66,8 +38,8 @@ public class ContactsData {
         return email;
     }
 
-    public String getGroupID() {
-        return groupID;
+    public String getGroup() {
+        return group;
     }
 
     public String getDay() {
@@ -82,52 +54,63 @@ public class ContactsData {
         return year;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setHomeNumber(String homeNumber) {
-        this.homeNumber = homeNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setGroupID(String groupID) {
-        this.groupID = groupID;
-    }
-
-    public void setDay(String day) {
-        this.day = day;
-    }
-
-    public void setMonth(String month) {
-        this.month = month;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
-    }
-
     public int getContactID() {
         return contactID;
     }
 
-    public void setContactID(int contactID) {
+    public ContactsData withFirstname(String firstname) {
+        this.firstname = firstname;
+        return this;
+    }
+
+    public ContactsData withLastname(String lastname) {
+        this.lastname = lastname;
+        return this;
+    }
+
+    public ContactsData withAddress(String address) {
+        this.address = address;
+        return this;
+    }
+
+    public ContactsData withHomeNumber(String homeNumber) {
+        this.homeNumber = homeNumber;
+        return this;
+    }
+
+    public ContactsData withPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+        return this;
+    }
+
+    public ContactsData withEmail(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public ContactsData withGroup(String group) {
+        this.group = group;
+        return this;
+    }
+
+    public ContactsData withDay(String day) {
+        this.day = day;
+        return this;
+    }
+
+    public ContactsData withMonth(String month) {
+        this.month = month;
+        return this;
+    }
+
+    public ContactsData withYear(String year) {
+        this.year = year;
+        return this;
+    }
+
+    public ContactsData withContactID(int contactID) {
         this.contactID = contactID;
+        return this;
     }
 
     @Override

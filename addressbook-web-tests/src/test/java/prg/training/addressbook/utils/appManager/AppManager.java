@@ -24,15 +24,15 @@ public class AppManager {
         helperBase = new HelperBase(this);
     }
 
-    public GroupHelper getGroupHelper() {
+    public GroupHelper groupHelper() {
         return groupHelper;
     }
 
-    public NavigationHelper getNavigationHelper() {
+    public NavigationHelper goTo() {
         return navigationHelper;
     }
 
-    public ContactHelper getContactHelper() {
+    public ContactHelper contactHelper() {
         return contactHelper;
     }
 

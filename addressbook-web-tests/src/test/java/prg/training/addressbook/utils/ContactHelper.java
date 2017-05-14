@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import prg.training.addressbook.base.HelperBase;
 import prg.training.addressbook.base.TestBase;
+import prg.training.addressbook.utils.DataModel.Contacts;
 import prg.training.addressbook.utils.DataModel.ContactsData;
 import prg.training.addressbook.utils.appManager.AppManager;
 
@@ -33,6 +34,13 @@ public class ContactHelper extends HelperBase {
         enterBirthdayDate(contactsData.getDay(), contactsData.getMonth(), contactsData.getYear());
     }
 
+    public void editAndCheckSuccess(ContactsData contact) {
+        editContactById(contact);
+        update();
+        checkSuccessMessage(By.xpath("//div[@class='msgbox']"), "Address book updated\nreturn to home page");
+        appManager.goTo().homePage(false);
+    }
+
     public void initContactCreation() {
         //invoke Contact creation dialog
         clickOn(By.linkText("add new"));
@@ -45,10 +53,8 @@ public class ContactHelper extends HelperBase {
     }
 
     public void selectGroup4Contact(ContactsData contactsData, boolean contactCreation) {
-        String groupID = contactsData.getGroupID();
-        if (groupID == null) {
-            return;
-        } else {
+        String groupID = contactsData.getGroup();
+        if (groupID != null) {
             if (contactCreation) {
                 Select groupSelect = new Select(getElement(By.name("new_group")));
                 groupSelect.selectByVisibleText(groupID);
@@ -66,6 +72,15 @@ public class ContactHelper extends HelperBase {
     public void deleteContact(int index) {
         clickOn(By.xpath("//tr[@name='entry'][" + (index) + "]" + "//input[@name='selected[]']"));
         int id = Integer.parseInt(getElement(By.xpath("//tr[@name='entry'][" + (index) + "]" + "//input[@name='selected[]']")).getAttribute("value"));
+        System.out.println("Going to delete contact with contact ID: " + id);
+        //click on Delete button
+        WebElement deleteBtn = getElement(By.xpath("//input[@value='Delete']"));
+        clickOn(deleteBtn);
+        appManager.getAlertHelper().acceptAlert();
+    }
+
+    public void deleteContactById(int id) {
+        clickOn(By.xpath("//tr[@name='entry']//input[@value='" + id + "']"));
         System.out.println("Going to delete contact with contact ID: " + id);
         //click on Delete button
         WebElement deleteBtn = getElement(By.xpath("//input[@value='Delete']"));
@@ -91,18 +106,42 @@ public class ContactHelper extends HelperBase {
         clickOn(By.xpath("//tr[@name='entry'][" + (index) + "]" + "/td[7]/a/img"));
         WebElement modifyBtn = getElement(By.xpath("//input[@value='Modify']"));
         clickOn(modifyBtn);
-        appManager.getContactHelper().completeContactsForm(contactsData);
+        appManager.contactHelper().completeContactsForm(contactsData);
+
+    }
+
+    public void editContactById(ContactsData contact) {
+        int id = contact.getContactID();
+        //select checkbox
+        clickOn(By.xpath("//tr[@name='entry']//input[@value='" + id + "']"));
+        //invoke Contact Edit
+        clickOn(By.xpath("//tr[@name='entry']//input[@value='" + id + "']" + "/../..//td[7]/a/img"));
+        WebElement modifyBtn = getElement(By.xpath("//input[@value='Modify']"));
+        clickOn(modifyBtn);
+        appManager.contactHelper().completeContactsForm(contact);
 
     }
 
     public void createContact(ContactsData contactsData, boolean goToHomePage) {
-        appManager.getContactHelper().initContactCreation();
-        appManager.getContactHelper().completeContactsForm(contactsData);
-        appManager.getContactHelper().selectGroup4Contact(contactsData, true);
-        appManager.getContactHelper().submit();
+        initContactCreation();
+        completeContactsForm(contactsData);
+        selectGroup4Contact(contactsData, true);
+        submit();
         if (goToHomePage) {
-            appManager.getNavigationHelper().goToHomePage(false);
+            appManager.goTo().homePage(false);
         }
+    }
+
+    public void deleteAndCheckSuccess(int index) {
+        deleteContact(index);
+        checkSuccessMessage(By.xpath("//div[@class='msgbox']"), "Record successful deleted");
+        appManager.goTo().homePage(true);
+    }
+
+    public void deleteAndCheckSuccess(ContactsData contact) {
+        deleteContactById(contact.getContactID());
+        checkSuccessMessage(By.xpath("//div[@class='msgbox']"), "Record successful deleted");
+        appManager.goTo().homePage(true);
     }
 
     public boolean isContactPresent() {
@@ -121,10 +160,23 @@ public class ContactHelper extends HelperBase {
             String name = row.findElement(By.xpath("./td[3]")).getText();
             String lastname = row.findElement(By.xpath("./td[2]")).getText();
             int id = Integer.parseInt(row.findElement(By.tagName("input")).getAttribute("value"));
-            ContactsData contact = new ContactsData(id, name, lastname, null, null, null, null, null, null, null, null);
+            ContactsData contact = new ContactsData().withContactID(id).withFirstname(name).withLastname(lastname);
             contacts.add(contact);
         }
         return contacts;
     }
 
+
+    public Contacts allContacts() {
+        Contacts contacts = new Contacts();
+        List<WebElement> rows = TestBase.getDriver().findElements(By.xpath("//tr[@name='entry']"));
+        for (WebElement row : rows) {
+            String name = row.findElement(By.xpath("./td[3]")).getText();
+            String lastname = row.findElement(By.xpath("./td[2]")).getText();
+            int id = Integer.parseInt(row.findElement(By.tagName("input")).getAttribute("value"));
+            ContactsData contact = new ContactsData().withContactID(id).withFirstname(name).withLastname(lastname);
+            contacts.add(contact);
+        }
+        return contacts;
+    }
 }

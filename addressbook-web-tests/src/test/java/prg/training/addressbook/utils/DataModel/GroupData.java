@@ -3,25 +3,10 @@ package prg.training.addressbook.utils.DataModel;
 public class GroupData /*implements Comparable<GroupData> */ {
 
     private String groupName;
-    private int groupID;
+    private int groupID = Integer.MAX_VALUE;
     private String header;
     private String footer;
 
-    public GroupData(String groupName, int groupID, String header, String footer) {
-        this.groupName = groupName;
-        this.groupID = groupID;
-        this.header = header;
-        this.footer = footer;
-    }
-
-    public GroupData(String groupName, String header, String footer) {
-        this.groupName = groupName;
-        //to ensure that new group will always be sorted last by id
-        this.groupID = Integer.MAX_VALUE;
-
-        this.header = header;
-        this.footer = footer;
-    }
 
     public String getGroupName() {
         return groupName;
@@ -39,20 +24,24 @@ public class GroupData /*implements Comparable<GroupData> */ {
         return groupID;
     }
 
-    public void setGroupName(String groupName) {
+    public GroupData withGroupName(String groupName) {
         this.groupName = groupName;
+        return this;
     }
 
-    public void setGroupID(int groupID) {
+    public GroupData withGroupID(int groupID) {
         this.groupID = groupID;
+        return this;
     }
 
-    public void setHeader(String header) {
+    public GroupData withHeader(String header) {
         this.header = header;
+        return this;
     }
 
-    public void setFooter(String footer) {
+    public GroupData withFooter(String footer) {
         this.footer = footer;
+        return this;
     }
 
     @Override
@@ -63,6 +52,7 @@ public class GroupData /*implements Comparable<GroupData> */ {
                 '}';
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -70,18 +60,14 @@ public class GroupData /*implements Comparable<GroupData> */ {
 
         GroupData groupData = (GroupData) o;
 
+        if (groupID != groupData.groupID) return false;
         return groupName != null ? groupName.equals(groupData.groupName) : groupData.groupName == null;
     }
 
     @Override
     public int hashCode() {
-        return groupName != null ? groupName.hashCode() : 0;
+        int result = groupName != null ? groupName.hashCode() : 0;
+        result = 31 * result + groupID;
+        return result;
     }
-
-
-//    @Override
-//    public int compareTo(GroupData other) {
-//        if (groupName != null) return groupName.compareTo(other.getGroupName());
-//        else return -1;
-//    }
 }

@@ -1,51 +1,46 @@
 package prg.training.addressbook.tests;
 
-import org.openqa.selenium.By;
-import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import prg.training.addressbook.base.TestBase;
+import prg.training.addressbook.utils.DataModel.Contacts;
 import prg.training.addressbook.utils.DataModel.ContactsData;
 
-import java.util.Comparator;
-import java.util.List;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Created by QA Lady on 3/29/2017.
  */
 public class ContactRemovalTests extends TestBase {
 
-    @Test(dataProvider = "Contact Index Provider")
-    public void deleteContact(int index) {
-        appManager.getNavigationHelper().goToHomePage(true);
-        int contactsSize = appManager.getContactHelper().getContacts().size();
-        if (!appManager.getContactHelper().isContactPresent() || contactsSize < index) {
+    @BeforeMethod
+    private void preconditionsPrep() {
+        appManager().goTo().homePage(true);
+        int index = 5;
+        int contactsSize = appManager().contactHelper().getContacts().size();
+        if (contactsSize < index) {
             for (int i = 0; i <= index - contactsSize; i++) {
                 String firstname = "firstname" + (i + 1);
                 System.out.println("No contacts found or contacts size: " + contactsSize + " < " + index + " going to create contact with name: " + firstname);
-                appManager.getContactHelper().createContact(new ContactsData(firstname, "lastname" + (i + 1), "address1", "1", "7324678090", "email1@ya.ru", null, "5", "December", "1975"), true);
+                appManager().contactHelper().createContact(new ContactsData().withFirstname(firstname).withLastname("lastname" + (i + 1)).withAddress("address1").withHomeNumber("1").withPhoneNumber("7324678090").withEmail("email1@ya.ru").withDay("5").withMonth("December").withYear("1975"), true);
             }
         }
-        List<ContactsData> before = appManager.getContactHelper().getContactList();
-        System.out.println("Contact ID of element [" + index + "] = " + before.get(index - 1/*xpath starts index from 1 and array list starts from 0*/).getContactID());
-
-        appManager.getContactHelper().deleteContact(index);
-        appManager.getContactHelper().checkSuccessMessage(By.xpath("//div[@class='msgbox']"), "Record successful deleted");
-        appManager.getNavigationHelper().goToHomePage(true);
-        List<ContactsData> after = appManager.getContactHelper().getContactList();
-
-        //available starting from java 8
-        //removed deleted contact to compare the remaining contacts in before and after lists
-        before.remove(index - 1/*xpath starts index from 1 and array list starts from 0*/);
-
-        //sorting approach starting from java 8
-        Comparator<? super ContactsData> byId = Comparator.comparingInt(ContactsData::getContactID);
-
-        before.sort(byId);
-        after.sort(byId);
-
-        Assert.assertEquals(after, before);
     }
+
+    @Test
+    public void deleteContact() {
+        Contacts before = appManager().contactHelper().allContacts();
+        ContactsData deletedContact = before.iterator().next();
+
+        appManager().contactHelper().deleteAndCheckSuccess(deletedContact);
+
+        Contacts after = appManager().contactHelper().allContacts();
+
+        assertThat(after, equalTo(before.without(deletedContact)));
+    }
+
 
     @DataProvider(name = "Contact Index Provider")
     public static Object[][] indexProvider() {

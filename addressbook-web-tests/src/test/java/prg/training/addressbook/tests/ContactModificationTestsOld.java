@@ -18,26 +18,31 @@ public class ContactModificationTestsOld extends TestBase {
 //    this class uses more complex comparator by name and then by lastname
 
 
-    @Test(dataProvider = "Contact Name Provider")
+    @Test(dataProvider = "Contact Name Provider", enabled = false)
     public void editContact(int index, String name) {
-        appManager.getNavigationHelper().goToHomePage(true);
-        int contactsSize = appManager.getContactHelper().getContacts().size();
-        if (!appManager.getContactHelper().isContactPresent() || contactsSize < index) {
+        appManager().goTo().homePage(true);
+        int contactsSize = appManager().contactHelper().getContacts().size();
+        if (!appManager().contactHelper().isContactPresent() || contactsSize < index) {
             for (int i = 0; i <= index - contactsSize; i++) {
                 String firstname = "firstname" + (i + 1);
                 System.out.println("No contacts found or contacts size: " + contactsSize + " < " + index + " going to create contact with name: " + firstname);
-                appManager.getContactHelper().createContact(new ContactsData(firstname, "lastname" + (i + 1), "address1", "1", "7324678090", "email1@ya.ru", null, "5", "December", "1975"), true);
+//                appManager.contactHelper().createContact(new ContactsData(firstname, "lastname" + (i + 1), "address1", "1", "7324678090", "email1@ya.ru", null, "5", "December", "1975"), true);
             }
         }
-        List<ContactsData> before = appManager.getContactHelper().getContactList();
-        appManager.getContactHelper().editContactName(index, name);
-        appManager.getContactHelper().update();
-        appManager.getContactHelper().checkSuccessMessage(By.xpath("//div[@class='msgbox']"), "Address book updated\nreturn to home page");
-        appManager.getNavigationHelper().goToHomePage(false);
-        List<ContactsData> after = appManager.getContactHelper().getContactList();
+        List<ContactsData> before = appManager().contactHelper().getContactList();
+        appManager().contactHelper().editContactName(index, name);
+        appManager().contactHelper().update();
+        appManager().contactHelper().checkSuccessMessage(By.xpath("//div[@class='msgbox']"), "Address book updated\nreturn to home page");
+        appManager().goTo().homePage(false);
+        List<ContactsData> after = appManager().contactHelper().getContactList();
 
         //available starting from java 8
-        before.get(index - 1/*xpath starts index from 1 and array list starts from 0*/).setFirstname(name); //using edit instead of remove and add
+        before.get(index - 1/*xpath starts index from 1 and array list starts from 0*/).withFirstname(name); //using editGroupTest instead of remove and add
+
+        //sorting approach before java 8
+//        Collections.sort(before);
+//        Collections.sort(after);
+
 
         //sorting approach starting from java 8
         Comparator<? super ContactsData> byName = (o1, o2) -> {

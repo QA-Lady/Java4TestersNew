@@ -1,61 +1,58 @@
 package prg.training.addressbook.tests;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.By;
-import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import prg.training.addressbook.base.TestBase;
+import prg.training.addressbook.utils.DataModel.Contacts;
 import prg.training.addressbook.utils.DataModel.ContactsData;
 
-import java.util.Comparator;
-import java.util.List;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Created by QA Lady on 3/29/2017.
  */
 public class ContactModificationTests extends TestBase {
 
-
-    @Test(dataProvider = "Contact Name Provider")
-    public void editContact(int index) {
-        appManager.getNavigationHelper().goToHomePage(true);
-        int contactsSize = appManager.getContactHelper().getContacts().size();
-        if (!appManager.getContactHelper().isContactPresent() || contactsSize < index) {
+    @BeforeMethod
+    private void preconditionsPrep() {
+        appManager().goTo().homePage(true);
+        int index = 8;
+        int contactsSize = appManager().contactHelper().getContacts().size();
+        if (contactsSize < index) {
             for (int i = 0; i <= index - contactsSize; i++) {
                 String firstname = "firstname" + (i + 1);
                 System.out.println("No contacts found or contacts size: " + contactsSize + " < " + index + " going to create contact with name: " + firstname);
-                appManager.getContactHelper().createContact(new ContactsData(firstname, "lastname" + (i + 1), "address1", "1", "7324678090", "email1@ya.ru", null, "5", "December", "1975"), true);
+                appManager().contactHelper().createContact(new ContactsData().withFirstname(firstname).withLastname("lastname" + (i + 1)).withAddress("address1").withHomeNumber("1").withPhoneNumber("7324678090").withEmail("email1@ya.ru").withDay("5").withMonth("December").withYear("1975"), true);
             }
         }
-        List<ContactsData> before = appManager.getContactHelper().getContactList();
-        ContactsData contact = new ContactsData("new firstname" + (index + 1), "new lastname" + (index + 1), "new address", RandomStringUtils.randomNumeric(2), RandomStringUtils.randomNumeric(11), RandomStringUtils.randomAlphanumeric(5) + "@ya.ru", null, "5", "December", "1975");
+    }
 
-        appManager.getContactHelper().editContact(index, contact);
-        appManager.getContactHelper().update();
-        appManager.getContactHelper().checkSuccessMessage(By.xpath("//div[@class='msgbox']"), "Address book updated\nreturn to home page");
-        appManager.getNavigationHelper().goToHomePage(false);
-        List<ContactsData> after = appManager.getContactHelper().getContactList();
 
-        //available starting from java 8
-        int id = before.get(index - 1/*xpath starts index from 1 and array list starts from 0*/).getContactID();
-        before.remove(index - 1/*xpath starts index from 1 and array list starts from 0*/);
+    @Test
+    public void editContact() {
 
-        contact.setContactID(id);
-        before.add(contact);
+        Contacts before = appManager().contactHelper().allContacts();
+        ContactsData modifiedContact = before.iterator().next();
+        ContactsData contact = new ContactsData().withContactID(modifiedContact.getContactID()).withFirstname("new firstname")
+                .withLastname("new lastname").withAddress("new address" + RandomStringUtils.randomAlphabetic(5))
+                .withHomeNumber(RandomStringUtils.randomNumeric(2))
+                .withPhoneNumber(RandomStringUtils.randomNumeric(11))
+                .withEmail(RandomStringUtils.randomAlphanumeric(5) + "@ya.ru")
+                .withDay("5").withMonth("December").withYear("1975");
 
-//        sorting approach starting from java 8
-        Comparator<? super ContactsData> byId = Comparator.comparingInt(ContactsData::getContactID);
+        appManager().contactHelper().editAndCheckSuccess(contact);
+        Contacts after = appManager().contactHelper().allContacts();
 
-        before.sort(byId);
-        after.sort(byId);
-
-        System.out.println(before);
+        System.out.println(before.without(modifiedContact).withAdded(contact));
         System.out.println(after);
 
-        Assert.assertEquals(after, before);
+        assertThat(after, equalTo(before.without(modifiedContact).withAdded(contact)));
 
     }
+
 
     @DataProvider(name = "Contact Name Provider")
     public static Object[][] nameProvider() {

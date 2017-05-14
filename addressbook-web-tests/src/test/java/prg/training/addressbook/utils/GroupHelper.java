@@ -6,9 +6,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import prg.training.addressbook.base.HelperBase;
 import prg.training.addressbook.base.TestBase;
 import prg.training.addressbook.utils.DataModel.GroupData;
+import prg.training.addressbook.utils.DataModel.Groups;
 import prg.training.addressbook.utils.appManager.AppManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,28 +31,39 @@ public class GroupHelper extends HelperBase {
         clickOn(By.name("new"));
     }
 
-    public void deleteGroup(int index) {
-        clickOn(By.xpath("//span[@class='group'][" + (index) + "]/input[@name='selected[]'][1]"));
+    public void deleteGroupById(int id) {
+        clickOn(By.xpath("//input[@value='" + id + "']"));
         clickOn(By.name("delete"));
     }
 
-
-    public void editGroupName(int index, String name) {
-        //select by index using xpath approach
-        clickOn(By.xpath("//span[@class='group'][" + (index) + "]/input[@name='selected[]'][1]"));
-
-        //select by index from group list
-//        TestBase.getDriver().findElements(By.name("selected[]")).get(index).click();
-
+    public void editGroup(GroupData group) {
+        clickOn(By.xpath("//input[@value='" + group.getGroupID() + "']"));
         clickOn(By.name("edit"));
-        enterText(By.name("group_name"), name);
+        completeGroupForm(group);
     }
 
     public void createGroup(GroupData groupsData) {
         initGroupCreation();
         completeGroupForm(groupsData);
         submit();
-        appManager.getNavigationHelper().goToGroupsPage(false);
+        appManager.goTo().groupsPage(false);
+    }
+
+    public void editAndCheckSuccess(GroupData groupToEdit) {
+        int groupID = groupToEdit.getGroupID();
+        System.out.println("Going to modify group with index: " + groupID);
+        editGroup(groupToEdit);
+        update();
+        checkSuccessMessage(By.xpath("//div[@class='msgbox']"), "Group record has been updated.\n" +
+                "return to the group page");
+        appManager.goTo().groupsPage(false);
+    }
+
+    public void deleteByIdAndCheckSuccess(GroupData groupToDelete) {
+        deleteGroupById(groupToDelete.getGroupID());
+        checkSuccessMessage(By.xpath("//div[@class='msgbox']"), "Group has been removed.\n" +
+                "return to the group page");
+        appManager.goTo().groupsPage(false);
     }
 
     public boolean isGroupPresent() {
@@ -68,15 +79,21 @@ public class GroupHelper extends HelperBase {
         return TestBase.getDriver().findElements(By.xpath("//input[@name='selected[]']")).size();
     }
 
-    public List<GroupData> getGroupList() {
-        List<GroupData> groups = new ArrayList<GroupData>();
-        List<WebElement> elements = TestBase.wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector("span.group")));
-        for (WebElement element : elements) {
-            String name = element.getText();
-            int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-            GroupData group = new GroupData(name, id, null, null);
-            groups.add(group);
+    public Groups allGroups() {
+        Groups groups = new Groups();
+        try {
+            List<WebElement> elements = TestBase.wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector("span.group")));
+            for (WebElement element : elements) {
+                String name = element.getText();
+                int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+                groups.add(new GroupData().withGroupName(name).withGroupID(id));
+            }
+        } catch (Exception e) {
+            System.out.println("No Groups found on page");
+            ;
         }
         return groups;
     }
+
+
 }
