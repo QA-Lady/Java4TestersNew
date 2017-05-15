@@ -93,29 +93,35 @@ public class ContactHelper extends HelperBase {
 
     public void editContactName(int index, String name) {
         clickOn(By.xpath("//tr[@name='entry'][" + (index) + "]" + "//input[@name='selected[]']"));
-        //invoke Contact Edit
-        clickOn(By.xpath("//tr[@name='entry'][" + (index) + "]" + "/td[7]/a/img"));
-        WebElement modifyBtn = getElement(By.xpath("//input[@value='Modify']"));
-        clickOn(modifyBtn);
+        //Go to detailed Contact page first and then click on Modify button
+        goToDetailedContactPage(index);
+        clickOnModifyBtn();
         enterText(By.name("firstname"), name);
 
+    }
+
+    public void goToDetailedContactPage(int index) {
+        clickOn(By.xpath("//tr[@name='entry'][" + (index) + "]" + "/td[7]/a/img"));
     }
 
 
     public void editContactById(ContactsData contact) {
         int id = contact.getContactID();
         clickOnEditContact(id);
-        WebElement modifyBtn = getElement(By.xpath("//input[@value='Modify']"));
-        clickOn(modifyBtn);
         appManager.contactHelper().completeContactsForm(contact);
 
+    }
+
+    public void clickOnModifyBtn() {
+        WebElement modifyBtn = getElement(By.xpath("//input[@value='Modify']"));
+        clickOn(modifyBtn);
     }
 
     public void clickOnEditContact(int id) {
         //select checkbox
         clickOn(By.xpath("//tr[@name='entry']//input[@value='" + id + "']"));
         //invoke Contact Edit
-        clickOn(By.xpath("//tr[@name='entry']//input[@value='" + id + "']" + "/../..//td[7]/a/img"));
+        clickOn(By.xpath("//tr[@name='entry']//input[@value='" + id + "']" + "/../..//td[8]/a/img"));
         //another option would be:
 //        WebElement checkbox = getElement(By.cssSelector(String.format("input[@value='%s']",id)));
 //        WebElement row = checkbox.findElement(By.xpath("./../.."));
@@ -175,8 +181,9 @@ public class ContactHelper extends HelperBase {
             String name = row.findElement(By.xpath("./td[3]")).getText();
             String lastname = row.findElement(By.xpath("./td[2]")).getText();
             int id = Integer.parseInt(row.findElement(By.tagName("input")).getAttribute("value"));
-            String[] allPhones = row.findElement(By.xpath("./td[6]")).getText().split("\n");
-            ContactsData contact = new ContactsData().withContactID(id).withFirstname(name).withLastname(lastname).withHomeNumber(allPhones[0]).withMobileNumber(allPhones[1]).withWorkNumber(allPhones[2]);
+            String allPhones = row.findElement(By.xpath("./td[6]")).getText();
+            String email = row.findElement(By.xpath("./td[5]")).getText();
+            ContactsData contact = new ContactsData().withContactID(id).withFirstname(name).withLastname(lastname).withAllphones(allPhones).withEmail(email);
             contactsCache.add(contact);
         }
         return new Contacts(contactsCache);
@@ -184,15 +191,14 @@ public class ContactHelper extends HelperBase {
 
     public ContactsData infoFromEditForm(ContactsData contact) {
         clickOnEditContact(contact.getContactID());
-        clickOn(By.xpath("//input[@value='Modify']"));
         String firstname = getElement(By.name("firstname")).getAttribute("value");
         String lastname = getElement(By.name("lastname")).getAttribute("value");
         String home = getElement(By.name("home")).getAttribute("value");
         String mobile = getElement(By.name("mobile")).getAttribute("value");
         String work = getElement(By.name("work")).getAttribute("value");
+        String email = getElement(By.name("email")).getAttribute("value");
         TestBase.getDriver().navigate().back();
-        TestBase.getDriver().navigate().back();
-        return new ContactsData().withContactID(contact.getContactID()).withFirstname(firstname).withLastname(lastname).withHomeNumber(home).withMobileNumber(mobile).withWorkNumber(work);
+        return new ContactsData().withContactID(contact.getContactID()).withFirstname(firstname).withLastname(lastname).withHomeNumber(home).withMobileNumber(mobile).withWorkNumber(work).withEmail(email);
 
     }
 }

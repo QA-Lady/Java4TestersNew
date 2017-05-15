@@ -8,6 +8,7 @@ public class ContactsData {
     private String homeNumber;
     private String mobileNumber;
     private String workNumber;
+    private String allPhones;
     private String email;
     private String group;
     private String day;
@@ -37,6 +38,10 @@ public class ContactsData {
 
     public String getWorkNumber() {
         return workNumber;
+    }
+
+    public String getAllPhones() {
+        return allPhones;
     }
 
     public String getEmail() {
@@ -123,6 +128,11 @@ public class ContactsData {
         return this;
     }
 
+    public ContactsData withAllphones(String allPhones) {
+        this.allPhones = allPhones;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "ContactsData{" +
@@ -151,4 +161,6 @@ public class ContactsData {
         result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
         return result;
     }
+
+
 }

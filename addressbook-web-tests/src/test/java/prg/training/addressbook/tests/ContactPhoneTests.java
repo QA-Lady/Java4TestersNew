@@ -6,6 +6,9 @@ import org.testng.annotations.Test;
 import prg.training.addressbook.base.TestBase;
 import prg.training.addressbook.utils.DataModel.ContactsData;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -34,13 +37,32 @@ public class ContactPhoneTests extends TestBase {
         ContactsData contact = appManager().contactHelper().allContacts().iterator().next();
         ContactsData contactInfoFromEditForm = appManager().contactHelper().infoFromEditForm(contact);
 
-        assertThat(contact.getHomeNumber(), equalTo(cleaned(contactInfoFromEditForm.getHomeNumber())));
-        assertThat(contact.getMobileNumber(), equalTo(cleaned(contactInfoFromEditForm.getMobileNumber())));
-        assertThat(contact.getWorkNumber(), equalTo(cleaned(contactInfoFromEditForm.getWorkNumber())));
+        assertThat(contact.getAllPhones(), equalTo(mergedPhones(contactInfoFromEditForm)));
+    }
+
+    public String mergedPhones(ContactsData contact) {
+        return Arrays.asList(contact.getHomeNumber(), contact.getMobileNumber(), contact.getWorkNumber())
+                .stream().filter((s -> !s.equals("")))
+                .map(ContactPhoneTests::cleaned)
+                .collect(Collectors.joining("\n"));
+
+
+////        without lambdas and functional programming
+//        String result = "";
+//                if(contact.getHomeNumber()!=null){
+//                    result = result + contact.getHomeNumber();
+//                }else if(contact.getMobileNumber()!=null){
+//                    result = result + contact.getMobileNumber();
+//                }else if(contact.getWorkNumber()!=null){
+//                    result = result + contact.getWorkNumber();
+//                }
+//                return result;
+
 
     }
 
-    public String cleaned(String phone) {
+
+    public static String cleaned(String phone) {
         return phone.replaceAll("\\s", "").replaceAll("[-()]", "");
     }
 }
