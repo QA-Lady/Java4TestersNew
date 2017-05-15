@@ -11,7 +11,9 @@ import prg.training.addressbook.utils.DataModel.ContactsData;
 import prg.training.addressbook.utils.appManager.AppManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by QA Lady on 3/28/2017.
@@ -100,8 +102,8 @@ public class ContactHelper extends HelperBase {
 
     }
 
-    public void goToDetailedContactPage(int index) {
-        clickOn(By.xpath("//tr[@name='entry'][" + (index) + "]" + "/td[7]/a/img"));
+    public void goToDetailedContactPage(int id) {
+        clickOn(By.xpath("//tr[@name='entry']//input[@value='" + id + "']" + "/../..//td[7]/a/img"));
     }
 
 
@@ -199,6 +201,19 @@ public class ContactHelper extends HelperBase {
         String email = getElement(By.name("email")).getAttribute("value");
         TestBase.getDriver().navigate().back();
         return new ContactsData().withContactID(contact.getContactID()).withFirstname(firstname).withLastname(lastname).withHomeNumber(home).withMobileNumber(mobile).withWorkNumber(work).withEmail(email);
+
+    }
+
+    public ContactsData infoFromContactDetails(ContactsData contact) {
+        goToDetailedContactPage(contact.getContactID());
+        String[] fullname = getElement(By.xpath("//*[@id='content']/b")).getText().split(" ");
+        String firstname = fullname[0];
+        String lastname = fullname[1];
+        String allPhonesInfo = Arrays.stream(getElement(By.xpath("//div[@id='content']")).getText().split("[\\r\\n]+")).filter(s -> s.matches("^[HMW]:.+")).collect(Collectors.joining("\n"));
+//        String allPhonesInfo = Arrays.stream(getElement(By.xpath("//div[@id='content']")).getText().split("[\\r\\n]+")).filter(s -> s.matches("^[HMW]:.+")).forEach(s -> s.replaceFirst("^[HMW]: *(.+)", "$1").collect(Collectors.joining("\n")));
+        String email = getElement(By.xpath("//*[@id='content']/a")).getText();
+        TestBase.getDriver().navigate().back();
+        return new ContactsData().withContactID(contact.getContactID()).withFirstname(firstname).withLastname(lastname).withAllphones(allPhonesInfo).withEmail(email);
 
     }
 }
