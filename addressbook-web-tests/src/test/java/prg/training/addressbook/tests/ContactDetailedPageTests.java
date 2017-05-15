@@ -41,7 +41,8 @@ public class ContactDetailedPageTests extends TestBase {
         System.out.println("check that email from Details page equals to the one in contact edit page");
         assertThat(infoFromContactDetails.getEmail(), equalTo(contactInfoFromEditForm.getEmail()));
         System.out.println("check that all phones from Details page equals to the one in contact edit page");
-        assertThat(ContactPhoneTests.cleaned(infoFromContactDetails.getAllPhones()).replace("H:", "").replace("M:", "\n").replaceAll("W:", "\n"), equalTo(new ContactPhoneTests().mergedPhones(contactInfoFromEditForm)));
+//        assertThat(ContactPhoneTests.cleaned(infoFromContactDetails.getAllPhones()).replace("H:", "").replace("M:", "\n").replace("W:", "\n"), equalTo(new ContactPhoneTests().mergedPhones(contactInfoFromEditForm)));
+        assertThat(ContactPhoneTests.cleaned(infoFromContactDetails.getAllPhones()).replaceAll("[HMW]:", "\n").replaceFirst("\n", ""), equalTo(new ContactPhoneTests().mergedPhones(contactInfoFromEditForm)));
     }
 
 
