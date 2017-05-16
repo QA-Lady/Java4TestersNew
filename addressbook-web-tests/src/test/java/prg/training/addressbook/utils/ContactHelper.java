@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import prg.training.addressbook.base.HelperBase;
 import prg.training.addressbook.base.TestBase;
+import prg.training.addressbook.tests.ContactPhoneTests;
 import prg.training.addressbook.utils.DataModel.Contacts;
 import prg.training.addressbook.utils.DataModel.ContactsData;
 import prg.training.addressbook.utils.appManager.AppManager;
@@ -34,6 +35,7 @@ public class ContactHelper extends HelperBase {
         enterText(By.name("mobile"), contactsData.getMobileNumber());
         enterText(By.name("work"), contactsData.getWorkNumber());
         enterText(By.name("email"), contactsData.getEmail());
+        attach(By.name("photo"), contactsData.getPhoto());
         enterBirthdayDate(contactsData.getDay(), contactsData.getMonth(), contactsData.getYear());
     }
 
@@ -209,11 +211,19 @@ public class ContactHelper extends HelperBase {
         String[] fullname = getElement(By.xpath("//*[@id='content']/b")).getText().split(" ");
         String firstname = fullname[0];
         String lastname = fullname[1];
-        String allPhonesInfo = Arrays.stream(getElement(By.xpath("//div[@id='content']")).getText().split("[\\r\\n]+")).filter(s -> s.matches("^[HMW]:.+")).collect(Collectors.joining("\n"));
-//        String allPhonesInfo = Arrays.stream(getElement(By.xpath("//div[@id='content']")).getText().split("[\\r\\n]+")).filter(s -> s.matches("^[HMW]:.+")).forEach(s -> s.replaceFirst("^[HMW]: *(.+)", "$1").collect(Collectors.joining("\n")));
+//        String allPhonesInfo = Arrays.stream(getElement(By.xpath("//div[@id='content']")).getText().split("[\\r\\n]+")).filter(s -> s.matches("^[HMW]:.+")).map(ContactPhoneTests ::cleaned).collect(Collectors.joining("\n"));
+        String allPhonesInfo = Arrays.stream(getElement(By.xpath("//div[@id='content']")).getText().split("[\\r\\n]+")).filter(s -> s.matches("^[HMW]:.+")).map(s -> s.replaceFirst("^[HMW]: *(.+)", "$1")).map(ContactPhoneTests::cleaned).collect(Collectors.joining("\n"));
         String email = getElement(By.xpath("//*[@id='content']/a")).getText();
         TestBase.getDriver().navigate().back();
         return new ContactsData().withContactID(contact.getContactID()).withFirstname(firstname).withLastname(lastname).withAllphones(allPhonesInfo).withEmail(email);
+
+    }
+
+    public String mergedContactDetails(ContactsData contact) {
+        goToDetailedContactPage(contact.getContactID());
+        String allPhonesInfo = Arrays.stream(getElement(By.xpath("//div[@id='content']")).getText().split("[\\r\\n]+")).collect(Collectors.joining("\n"));
+        TestBase.getDriver().navigate().back();
+        return allPhonesInfo;
 
     }
 }

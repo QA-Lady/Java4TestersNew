@@ -1,10 +1,15 @@
 package prg.training.addressbook.tests;
 
+import javafx.util.Pair;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import prg.training.addressbook.base.TestBase;
 import prg.training.addressbook.utils.DataModel.ContactsData;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -41,9 +46,37 @@ public class ContactDetailedPageTests extends TestBase {
         System.out.println("check that email from Details page equals to the one in contact edit page");
         assertThat(infoFromContactDetails.getEmail(), equalTo(contactInfoFromEditForm.getEmail()));
         System.out.println("check that all phones from Details page equals to the one in contact edit page");
-//        assertThat(ContactPhoneTests.cleaned(infoFromContactDetails.getAllPhones()).replace("H:", "").replace("M:", "\n").replace("W:", "\n"), equalTo(new ContactPhoneTests().mergedPhones(contactInfoFromEditForm)));
-        assertThat(ContactPhoneTests.cleaned(infoFromContactDetails.getAllPhones()).replaceAll("[HMW]:", "\n").replaceFirst("\n", ""), equalTo(new ContactPhoneTests().mergedPhones(contactInfoFromEditForm)));
+//        assertThat(ContactPhoneTests.cleaned(infoFromContactDetails.getAllPhones()).replaceAll("[HMW]:", "\n").replaceFirst("\n", ""), equalTo(new ContactPhoneTests().mergedPhones(contactInfoFromEditForm)));
+//        assertThat(infoFromContactDetails.getAllPhones().replaceAll("[HMW]:", ""), equalTo(new ContactPhoneTests().mergedPhones(contactInfoFromEditForm)));
+        assertThat(infoFromContactDetails.getAllPhones(), equalTo(new ContactPhoneTests().mergedPhones(contactInfoFromEditForm)));
     }
 
+    @Test
+    public void contactMergedDetailsTest() {
+        appManager().goTo().homePage(true);
+        ContactsData contact = appManager().contactHelper().allContacts().iterator().next();
+        ContactsData contactInfoFromEditForm = appManager().contactHelper().infoFromEditForm(contact);
+        String infoFromContactDetails = appManager().contactHelper().mergedContactDetails(contact);
+        System.out.println("check that name from Details page equals to the one in contact edit page");
+        assertThat(infoFromContactDetails, equalTo(mergeContactData(contactInfoFromEditForm)));
+    }
 
+    private String mergeContactData(ContactsData contact) {
+        String fio = Stream.of(contact.getFirstname(), contact.getLastname())
+                .filter((s) -> !s.equals(""))
+                .collect(Collectors.joining(" "));
+
+        List<String> data = Stream.of(new Pair("H: ", contact.getHomeNumber()),
+                new Pair("M: ", contact.getMobileNumber()),
+                new Pair("W: ", contact.getWorkNumber())
+        )
+                .filter((p) -> !(p.getValue() == null || p.getValue().equals("")))
+                .map((p) -> (String) p.getKey() + (String) p.getValue())
+                .collect(Collectors.toList());
+
+        data.add(0, fio);
+        data.add(contact.getEmail());
+
+        return data.stream().filter(s -> !"".equals(s)).collect(Collectors.joining("\n"));
+    }
 }
