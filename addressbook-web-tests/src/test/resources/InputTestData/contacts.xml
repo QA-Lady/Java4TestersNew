@@ -1,38 +1,41 @@
 <list>
-    <contact>
-        <firstname>firstname 1</firstname>
-        <lastname>lastname 1</lastname>
-        <address>address 1</address>
-        <homeNumber>3336617</homeNumber>
-        <mobileNumber>732 272 8609</mobileNumber>
-        <workNumber>979-622-1162</workNumber>
-        <email>S2Hbl@6612.com</email>
-        <day>9</day>
-        <month>1</month>
-        <year>1975</year>
-    </contact>
-    <contact>
-        <firstname>firstname 2</firstname>
-        <lastname>lastname 2</lastname>
-        <address>address 2</address>
-        <homeNumber>8413754</homeNumber>
-        <mobileNumber>661 043 4838</mobileNumber>
-        <workNumber>200-024-0953</workNumber>
-        <email>0leNe@5311.com</email>
-        <day>7</day>
-        <month>2</month>
-        <year>1975</year>
-    </contact>
-    <contact>
-        <firstname>firstname 3</firstname>
-        <lastname>lastname 3</lastname>
-        <address>address 3</address>
-        <homeNumber>1436226</homeNumber>
-        <mobileNumber>129 289 7396</mobileNumber>
-        <workNumber>158-626-6456</workNumber>
-        <email>evNeM@0938.com</email>
-        <day>2</day>
-        <month>3</month>
-        <year>1975</year>
-    </contact>
+  <contact>
+    <firstname>firstname 1</firstname>
+    <lastname>lastname 1</lastname>
+    <address>address 1</address>
+    <homeNumber>1404234</homeNumber>
+    <mobileNumber>951 148 5389</mobileNumber>
+    <workNumber>303-768-5021</workNumber>
+    <email>KXdyU@9367.com</email>
+    <group>Group 1</group>
+    <day>8</day>
+    <month>February</month>
+    <year>1975</year>
+  </contact>
+  <contact>
+    <firstname>firstname 2</firstname>
+    <lastname>lastname 2</lastname>
+    <address>address 2</address>
+    <homeNumber>0217891</homeNumber>
+    <mobileNumber>694 787 7066</mobileNumber>
+    <workNumber>098-784-6193</workNumber>
+    <email>WdPkV@1175.com</email>
+    <group>Group 2</group>
+    <day>4</day>
+    <month>February</month>
+    <year>1975</year>
+  </contact>
+  <contact>
+    <firstname>firstname 3</firstname>
+    <lastname>lastname 3</lastname>
+    <address>address 3</address>
+    <homeNumber>9507278</homeNumber>
+    <mobileNumber>589 939 1118</mobileNumber>
+    <workNumber>588-352-5071</workNumber>
+    <email>so6ch@3538.com</email>
+    <group>Group 3</group>
+    <day>1</day>
+    <month>February</month>
+    <year>1975</year>
+  </contact>
 </list>

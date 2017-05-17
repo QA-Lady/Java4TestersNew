@@ -46,7 +46,8 @@ public class HelperBase {
     public void attach(By locator, File file) {
         if (file == null) {
             WebElement element = getElement(locator);
-            element.sendKeys(file.getAbsolutePath());
+            //selenium doesn't like "/" had to replace to "\\"
+            element.sendKeys(file.getAbsolutePath().replace("/", "\\"));
         }
     }
 

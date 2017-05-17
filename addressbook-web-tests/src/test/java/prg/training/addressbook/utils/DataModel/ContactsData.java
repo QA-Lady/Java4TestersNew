@@ -23,6 +23,7 @@ public class ContactsData {
     private String allPhones;
     @Expose
     private String email;
+    @Expose
     private String group;
     @Expose
     private String day;

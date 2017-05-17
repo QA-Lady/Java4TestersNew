@@ -88,7 +88,7 @@ Program Arguments: -c 3 -f src\test\resources\InputTestData\contacts.json -d jso
         System.out.println(new File(".").getAbsolutePath());
         Writer writer = new FileWriter(file);
         for (ContactsData contact : contacts) {
-            writer.write(String.format("%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n", contact.getFirstname(), contact.getLastname(), contact.getAddress(), contact.getHomeNumber(), contact.getMobileNumber(), contact.getWorkNumber(), contact.getEmail(), contact.getDay(), contact.getMonth(), contact.getYear()));
+            writer.write(String.format("%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n", contact.getFirstname(), contact.getLastname(), contact.getAddress(), contact.getHomeNumber(), contact.getMobileNumber(), contact.getWorkNumber(), contact.getEmail(), contact.getDay(), contact.getMonth(), contact.getYear(), contact.getGroup()));
         }
         writer.close();
     }
@@ -97,7 +97,7 @@ Program Arguments: -c 3 -f src\test\resources\InputTestData\contacts.json -d jso
         List<ContactsData> contacts = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             int cnt_count = i + 1;
-            contacts.add(new ContactsData().withFirstname(String.format("firstname %s", cnt_count)).withLastname(String.format("lastname %s", cnt_count)).withAddress(String.format("address %s", cnt_count)).withHomeNumber(RandomStringUtils.randomNumeric(7)).withMobileNumber(RandomStringUtils.randomNumeric(3) + " " + RandomStringUtils.randomNumeric(3) + " " + RandomStringUtils.randomNumeric(4)).withWorkNumber(RandomStringUtils.randomNumeric(3) + "-" + RandomStringUtils.randomNumeric(3) + "-" + RandomStringUtils.randomNumeric(4)).withEmail(RandomStringUtils.randomAlphanumeric(5) + "@" + RandomStringUtils.randomNumeric(4) + ".com").withDay(RandomStringUtils.randomNumeric(1)).withMonth(String.valueOf(cnt_count)).withYear("1975"));
+            contacts.add(new ContactsData().withFirstname(String.format("firstname %s", cnt_count)).withLastname(String.format("lastname %s", cnt_count)).withAddress(String.format("address %s", cnt_count)).withHomeNumber(RandomStringUtils.randomNumeric(7)).withMobileNumber(RandomStringUtils.randomNumeric(3) + " " + RandomStringUtils.randomNumeric(3) + " " + RandomStringUtils.randomNumeric(4)).withWorkNumber(RandomStringUtils.randomNumeric(3) + "-" + RandomStringUtils.randomNumeric(3) + "-" + RandomStringUtils.randomNumeric(4)).withEmail(RandomStringUtils.randomAlphanumeric(5) + "@" + RandomStringUtils.randomNumeric(4) + ".com").withDay(RandomStringUtils.randomNumeric(1)).withMonth("February").withYear("1975").withGroup(String.format("Group %s", cnt_count)));
         }
         return contacts;
     }
