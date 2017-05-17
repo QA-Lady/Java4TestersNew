@@ -1,10 +1,16 @@
 package prg.training.addressbook.utils.DataModel;
 
-public class GroupData /*implements Comparable<GroupData> */ {
+import com.google.gson.annotations.Expose;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+public class GroupData /*implements Comparable<GroupData> */ {
+    @Expose
     private String groupName;
+    @XStreamOmitField
     private int groupID = Integer.MAX_VALUE;
+    @Expose
     private String header;
+    @Expose
     private String footer;
 
 

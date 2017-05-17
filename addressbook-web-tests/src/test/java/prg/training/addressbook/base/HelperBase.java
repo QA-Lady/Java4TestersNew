@@ -7,6 +7,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import prg.training.addressbook.utils.appManager.AppManager;
 
+import java.io.File;
+
 /**
  * Created by QA Lady on 3/29/2017.
  */
@@ -38,6 +40,13 @@ public class HelperBase {
             clickOn(element);
             element.clear();
             element.sendKeys(text);
+        }
+    }
+
+    public void attach(By locator, File file) {
+        if (file == null) {
+            WebElement element = getElement(locator);
+            element.sendKeys(file.getAbsolutePath());
         }
     }
 

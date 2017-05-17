@@ -1,0 +1,38 @@
+<list>
+    <contact>
+        <firstname>firstname 1</firstname>
+        <lastname>lastname 1</lastname>
+        <address>address 1</address>
+        <homeNumber>3336617</homeNumber>
+        <mobileNumber>732 272 8609</mobileNumber>
+        <workNumber>979-622-1162</workNumber>
+        <email>S2Hbl@6612.com</email>
+        <day>9</day>
+        <month>1</month>
+        <year>1975</year>
+    </contact>
+    <contact>
+        <firstname>firstname 2</firstname>
+        <lastname>lastname 2</lastname>
+        <address>address 2</address>
+        <homeNumber>8413754</homeNumber>
+        <mobileNumber>661 043 4838</mobileNumber>
+        <workNumber>200-024-0953</workNumber>
+        <email>0leNe@5311.com</email>
+        <day>7</day>
+        <month>2</month>
+        <year>1975</year>
+    </contact>
+    <contact>
+        <firstname>firstname 3</firstname>
+        <lastname>lastname 3</lastname>
+        <address>address 3</address>
+        <homeNumber>1436226</homeNumber>
+        <mobileNumber>129 289 7396</mobileNumber>
+        <workNumber>158-626-6456</workNumber>
+        <email>evNeM@0938.com</email>
+        <day>2</day>
+        <month>3</month>
+        <year>1975</year>
+    </contact>
+</list>

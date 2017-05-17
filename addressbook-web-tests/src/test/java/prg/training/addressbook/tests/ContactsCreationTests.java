@@ -7,6 +7,8 @@ import prg.training.addressbook.base.TestBase;
 import prg.training.addressbook.utils.DataModel.Contacts;
 import prg.training.addressbook.utils.DataModel.ContactsData;
 
+import java.io.File;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -21,7 +23,7 @@ public class ContactsCreationTests extends TestBase {
         appManager().goTo().homePage(true);
 
         Contacts before = appManager().contactHelper().allContacts();
-
+        File photo = new File(getClass().getResource("/InputTestData/contact.jpg").toURI());
         appManager().contactHelper().createContact(contactsData, false);
         appManager().goTo().homePage(false);
         // хеширование  - предварительная проверка при помощи более быстрой операции
@@ -30,6 +32,16 @@ public class ContactsCreationTests extends TestBase {
         System.out.println("EXPECTED: " + before.withAdded(contactsData.withContactID(after.stream().mapToInt((c) -> c.getContactID()).max().getAsInt())));
         System.out.println(after);
         assertThat(after, equalTo(before.withAdded(contactsData.withContactID(after.stream().mapToInt((c) -> c.getContactID()).max().getAsInt()))));
+
+    }
+
+    @Test
+    public void testCurrentDir() {
+        File currentDir = new File(".");
+        System.out.println(currentDir.getAbsolutePath());
+        File photo = new File("src/test/resources/InputTestData/pic.jpg");
+        System.out.println(photo.getAbsolutePath());
+        System.out.println(photo.exists());
 
     }
 

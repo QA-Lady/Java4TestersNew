@@ -1,19 +1,46 @@
 package prg.training.addressbook.utils.DataModel;
 
+import com.google.gson.annotations.Expose;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
+import java.io.File;
+
 public class ContactsData {
+    @XStreamOmitField
     private int contactID = Integer.MAX_VALUE;
+    @Expose
     private String firstname;
+    @Expose
     private String lastname;
+    @Expose
     private String address;
+    @Expose
     private String homeNumber;
+    @Expose
     private String mobileNumber;
+    @Expose
     private String workNumber;
     private String allPhones;
+    @Expose
     private String email;
     private String group;
+    @Expose
     private String day;
+    @Expose
     private String month;
+    @Expose
     private String year;
+
+    public File getPhoto() {
+        return photo;
+    }
+
+    public ContactsData withPhoto(File photo) {
+        this.photo = photo;
+        return this;
+    }
+
+    private File photo;
 
 
     public String getFirstname() {
