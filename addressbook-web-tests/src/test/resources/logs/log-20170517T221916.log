@@ -1,0 +1,6 @@
+545  [main] INFO  p.t.addressbook.base.TestBase - groupCreationTest with parameters [GroupData{groupName='group 1', groupID='2147483647'}] - is started
+10180 [main] INFO  p.t.addressbook.base.TestBase - groupCreationTest - is complete
+10181 [main] INFO  p.t.addressbook.base.TestBase - groupCreationTest with parameters [GroupData{groupName='group 2', groupID='2147483647'}] - is started
+14607 [main] INFO  p.t.addressbook.base.TestBase - groupCreationTest - is complete
+14608 [main] INFO  p.t.addressbook.base.TestBase - groupCreationTest with parameters [GroupData{groupName='group 3', groupID='2147483647'}] - is started
+19228 [main] INFO  p.t.addressbook.base.TestBase - groupCreationTest - is complete

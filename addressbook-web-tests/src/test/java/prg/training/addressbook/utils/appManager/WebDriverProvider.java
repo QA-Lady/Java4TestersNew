@@ -37,9 +37,9 @@ public class WebDriverProvider {
         } else if (BrowserType.IE.equalsIgnoreCase(browser)) {
             driver = new InternetExplorerDriver();
         } else {
-            System.out.println("Wrong value was provided for argument browser " + browser);
+            System.out.println("Wrong value was provided for argument browser '" + browser + "'");
             System.out.println("Will default to FireFox driver with new profile");
-            driver = new FirefoxDriver();
+            driver = new FirefoxDriver(new FirefoxBinary(new File("C:/Dev_Tools/Drivers/ESR/firefox.exe")), new FirefoxProfile());
         }
         //set thread local driver
         threadLocalDriver.set(driver);

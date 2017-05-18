@@ -61,10 +61,10 @@ public class ContactsCreationTests extends TestBase {
     @DataProvider(name = "Valid Contacts CSV Provider")
     public Iterator<Object[]> validContactsCsv() {
         List<Object[]> list = new ArrayList<Object[]>();
-        try {
+        //next try block not only catches exeption it also makes sure that reader is  automatically closed at the end
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File(getClass().getResource("/InputTestData/Contacts.csv").toURI())))) {
 //            BufferedReader reader = new BufferedReader(new FileReader(new File("addressbook-web-tests/src/test/resources/InputTestData/Contacts.csv")));
 //            BufferedReader reader = new BufferedReader(new FileReader(new File(GroupCreationTests.class.getResource("/InputTestData/Contacts.csv").toURI())));
-            BufferedReader reader = new BufferedReader(new FileReader(new File(getClass().getResource("/InputTestData/Contacts.csv").toURI())));
             String line = reader.readLine();
             while (line != null) {
                 String[] split = line.split(";");
@@ -80,37 +80,40 @@ public class ContactsCreationTests extends TestBase {
 
     @DataProvider(name = "Valid Contacts XML Provider")
     public Iterator<Object[]> validContactsXml() throws IOException, URISyntaxException {
-        BufferedReader reader = new BufferedReader(new FileReader(new File(getClass().getResource("/InputTestData/Contacts.xml").toURI())));
-        String xml = "";
-        String line = reader.readLine();
-        while (line != null) {
-            xml += line;
-            line = reader.readLine();
+        //next try block makes sure that reader is  automatically closed at the end
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File(getClass().getResource("/InputTestData/Contacts.xml").toURI())))) {
+            String xml = "";
+            String line = reader.readLine();
+            while (line != null) {
+                xml += line;
+                line = reader.readLine();
+            }
+            XStream xstream = new XStream();
+            xstream.processAnnotations(ContactsData.class);
+            List<ContactsData> Contacts = (List<ContactsData>) xstream.fromXML(xml);
+            return Contacts.stream().map((c) -> new Object[]{c}).collect(Collectors.toList()).iterator();
         }
-        XStream xstream = new XStream();
-        xstream.processAnnotations(ContactsData.class);
-        List<ContactsData> Contacts = (List<ContactsData>) xstream.fromXML(xml);
-        return Contacts.stream().map((c) -> new Object[]{c}).collect(Collectors.toList()).iterator();
-
     }
 
     @DataProvider(name = "Valid Contacts JSON Provider")
     public Iterator<Object[]> validContactsJson() throws IOException, URISyntaxException {
-        BufferedReader reader = new BufferedReader(new FileReader(new File(getClass().getResource("/InputTestData/Contacts.json").toURI())));
-        String json = "";
-        String line = reader.readLine();
-        while (line != null) {
-            json += line;
-            line = reader.readLine();
-        }
-        Gson gson = new Gson();
+        //next try block makes sure that reader is  automatically closed at the end
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File(getClass().getResource("/InputTestData/Contacts.json").toURI())))) {
+            String json = "";
+            String line = reader.readLine();
+            while (line != null) {
+                json += line;
+                line = reader.readLine();
+            }
+            Gson gson = new Gson();
 
-        List<ContactsData> Contacts = gson.fromJson(json, new TypeToken<List<ContactsData>>() {
-        }.getType()); //List<ContactsData>.class
-        return Contacts.stream().map((c) -> new Object[]{c}).collect(Collectors.toList()).iterator();
+            List<ContactsData> Contacts = gson.fromJson(json, new TypeToken<List<ContactsData>>() {
+            }.getType()); //List<ContactsData>.class
+            return Contacts.stream().map((c) -> new Object[]{c}).collect(Collectors.toList()).iterator();
+        }
 
     }
-    
+
     @DataProvider(name = "ContactsInfo")
     public static Object[][] text() {
 

@@ -3,6 +3,8 @@ package prg.training.addressbook.tests;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import prg.training.addressbook.base.TestBase;
@@ -27,6 +29,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 
 public class GroupCreationTests extends TestBase {
+    Logger log = LoggerFactory.getLogger(GroupCreationTests.class);
 
     @Test(dataProvider = "Valid Groups JSON Provider")
     public void groupCreationTest(GroupData groupsData) {
@@ -46,10 +49,11 @@ public class GroupCreationTests extends TestBase {
     @DataProvider(name = "Valid Groups CSV Provider")
     public Iterator<Object[]> validGroupsCsv() {
         List<Object[]> list = new ArrayList<Object[]>();
-        try {
+        //next try block not only catches exeption it also makes sure that reader is  automatically closed at the end
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File(getClass().getResource("/InputTestData/groups.csv").toURI())))) {
 //            BufferedReader reader = new BufferedReader(new FileReader(new File("addressbook-web-tests/src/test/resources/InputTestData/groups.csv")));
 //            BufferedReader reader = new BufferedReader(new FileReader(new File(GroupCreationTests.class.getResource("/InputTestData/groups.csv").toURI())));
-            BufferedReader reader = new BufferedReader(new FileReader(new File(getClass().getResource("/InputTestData/groups.csv").toURI())));
+
             String line = reader.readLine();
             while (line != null) {
                 String[] split = line.split(";");
@@ -66,36 +70,39 @@ public class GroupCreationTests extends TestBase {
     @DataProvider(name = "Valid Groups XML Provider")
     public Iterator<Object[]> validGroupsXml() throws IOException, URISyntaxException {
 //        List<Object[]> list = new ArrayList<Object[]>();
-        BufferedReader reader = new BufferedReader(new FileReader(new File(getClass().getResource("/InputTestData/groups.xml").toURI())));
-        String xml = "";
-        String line = reader.readLine();
-        while (line != null) {
-            xml += line;
-            line = reader.readLine();
-        }
-        XStream xstream = new XStream();
-        xstream.processAnnotations(GroupData.class);
-        List<GroupData> groups = (List<GroupData>) xstream.fromXML(xml);
-        return groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
+        //next try block makes sure that reader is  automatically closed at the end
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File(getClass().getResource("/InputTestData/groups.xml").toURI())))) {
+            String xml = "";
+            String line = reader.readLine();
+            while (line != null) {
+                xml += line;
+                line = reader.readLine();
+            }
+            XStream xstream = new XStream();
+            xstream.processAnnotations(GroupData.class);
+            List<GroupData> groups = (List<GroupData>) xstream.fromXML(xml);
+            return groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
 //        return list.iterator();
+        }
 
     }
 
     @DataProvider(name = "Valid Groups JSON Provider")
     public Iterator<Object[]> validGroupsJson() throws IOException, URISyntaxException {
-        BufferedReader reader = new BufferedReader(new FileReader(new File(getClass().getResource("/InputTestData/groups.json").toURI())));
-        String json = "";
-        String line = reader.readLine();
-        while (line != null) {
-            json += line;
-            line = reader.readLine();
+        //next try block makes sure that reader is  automatically closed at the end
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File(getClass().getResource("/InputTestData/groups.json").toURI())))) {
+            String json = "";
+            String line = reader.readLine();
+            while (line != null) {
+                json += line;
+                line = reader.readLine();
+            }
+            Gson gson = new Gson();
+
+            List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>() {
+            }.getType()); //List<GroupData>.class
+            return groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
         }
-        Gson gson = new Gson();
-
-        List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>() {
-        }.getType()); //List<GroupData>.class
-        return groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
-
     }
 
 

@@ -1,0 +1,27 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Contacts Test Suite" data-provider-thread-count="1" thread-count="1" parallel="none" preserve-order="true">
+    <!--  <test name="Firefox tests">
+          <parameter name="browser" value="firefox"/>
+          <classes>
+              <class name="prg.training.addressbook.tests.ContactsCreationTests"/>
+              <class name="prg.training.addressbook.tests.ContactModificationTests"/>
+              <class name="prg.training.addressbook.tests.ContactRemovalTests"/>
+              <class name="prg.training.addressbook.tests.ContactPhoneTests"/>
+              <class name="prg.training.addressbook.tests.EmailTests"/>
+              <class name="prg.training.addressbook.tests.ContactDetailedPageTests"/>
+          </classes>
+      </test>-->
+    <test name="Contact tests">
+        <parameter name="browser" value="${browser}"/>
+        <classes>
+            <!--<class name="prg.training.addressbook.tests.ContactsCreationTests"/>-->
+            <!--<class name="prg.training.addressbook.tests.ContactModificationTests"/>-->
+            <class name="prg.training.addressbook.tests.ContactRemovalTests"/>
+            <class name="prg.training.addressbook.tests.ContactPhoneTests"/>
+            <class name="prg.training.addressbook.tests.EmailTests"/>
+            <!--<class name="prg.training.addressbook.tests.ContactDetailedPageTests"/>-->
+        </classes>
+    </test>
+
+
+</suite>

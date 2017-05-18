@@ -30,7 +30,7 @@ public class ContactHelper extends HelperBase {
         //Fill Contact's form
         enterText(By.name("firstname"), contactsData.getFirstname());
         enterText(By.name("lastname"), contactsData.getLastname());
-        attach(By.name("photo"), contactsData.getPhoto());
+//        attach(By.name("photo"), contactsData.getPhoto());
         enterText(By.name("address"), contactsData.getAddress());
         enterText(By.name("home"), contactsData.getHomeNumber());
         enterText(By.name("mobile"), contactsData.getMobileNumber());

@@ -34,7 +34,7 @@ public class NavigationHelper extends HelperBase {
     }
 
     private boolean onHomePage() {
-        if (TestBase.getDriver().getCurrentUrl().equals(URL_HOME) && isElementPresent(TestBase.getDriver(), By.id("maintable"))) {
+        if (TestBase.getDriver().getCurrentUrl().equals(TestBase.baseUrl) && isElementPresent(TestBase.getDriver(), By.id("maintable"))) {
             return true;
         }
         return false;

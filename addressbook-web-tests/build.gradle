@@ -12,5 +12,50 @@ dependencies {
     compile 'com.beust:jcommander:1.69'
     compile 'com.thoughtworks.xstream:xstream:1.4.9'
     compile 'com.google.code.gson:gson:2.8.0'
+    compile 'ch.qos.logback:logback-classic:1.2.2'
+}
+//for entire test run without groups
+test{
+    useTestNG{
+        suites "src/test/resources/testng.xml"
+//        suites "src/test/resources/testng-contacts.xml"
+    }
 
+        if (project.hasProperty('browser')) {
+            //подстановки в груви выполняются только внутри двойных кавычек
+            systemProperty 'browser', "${browser}"
+        }
+
+}
+
+task testGroups(type: Test){
+    useTestNG{
+        suites "src/test/resources/testng-groups.xml"
+    }
+
+    if (project.hasProperty('target')) {
+        //подстановки в груви выполняются только внутри двойных кавычек
+        systemProperty 'target', "${target}"
+    }
+    if (project.hasProperty('browser')) {
+        //подстановки в груви выполняются только внутри двойных кавычек
+        systemProperty 'browser', "${browser}"
+    }
+}
+
+task testContacts(type: Test){
+    useTestNG{
+        suites "src/test/resources/testng-contacts.xml"
+    }
+    if (project.hasProperty('target')) {
+        //подстановки в груви выполняются только внутри двойных кавычек
+        systemProperty 'target', "${target}"
+    }
+
+    beforeTest {
+        if (project.hasProperty('browser')) {
+            //подстановки в груви выполняются только внутри двойных кавычек
+            systemProperty 'browser', "${browser}"
+        }
+    }
 }

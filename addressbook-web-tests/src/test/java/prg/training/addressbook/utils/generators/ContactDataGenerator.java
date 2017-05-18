@@ -67,9 +67,11 @@ Program Arguments: -c 3 -f src\test\resources\InputTestData\contacts.json -d jso
     private void saveAsJson(List<ContactsData> contacts, File file) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
         String json = gson.toJson(contacts);
-        Writer writer = new FileWriter(file);
-        writer.write(json);
-        writer.close();
+        //startging from java 7 new try() that automatically closes writer is available
+        try (Writer writer = new FileWriter(file)) {
+            writer.write(json);
+//        writer.close();
+        }
 
     }
 
@@ -78,19 +80,23 @@ Program Arguments: -c 3 -f src\test\resources\InputTestData\contacts.json -d jso
         xStream.alias("contact", ContactsData.class);
         xStream.processAnnotations(ContactsData.class);
         String xml = xStream.toXML(contacts);
-        Writer writer = new FileWriter(file);
-        writer.write(xml);
-        writer.close();
+        //startging from java 7 new try() that automatically closes writer is available
+        try (Writer writer = new FileWriter(file)) {
+            writer.write(xml);
+//        writer.close();
+        }
 
     }
 
     private void saveAsCsv(List<ContactsData> contacts, File file) throws IOException {
         System.out.println(new File(".").getAbsolutePath());
-        Writer writer = new FileWriter(file);
-        for (ContactsData contact : contacts) {
-            writer.write(String.format("%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n", contact.getFirstname(), contact.getLastname(), contact.getAddress(), contact.getHomeNumber(), contact.getMobileNumber(), contact.getWorkNumber(), contact.getEmail(), contact.getDay(), contact.getMonth(), contact.getYear(), contact.getGroup()));
+        //startging from java 7 new try() that automatically closes writer is available
+        try (Writer writer = new FileWriter(file)) {
+            for (ContactsData contact : contacts) {
+                writer.write(String.format("%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n", contact.getFirstname(), contact.getLastname(), contact.getAddress(), contact.getHomeNumber(), contact.getMobileNumber(), contact.getWorkNumber(), contact.getEmail(), contact.getDay(), contact.getMonth(), contact.getYear(), contact.getGroup()));
+            }
+//            writer.close();
         }
-        writer.close();
     }
 
     private List<ContactsData> generatecontacts(int count) {

@@ -64,9 +64,12 @@ public class GroupDataGenerator {
     private void saveAsJson(List<GroupData> groups, File file) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
         String json = gson.toJson(groups);
-        Writer writer = new FileWriter(file);
-        writer.write(json);
-        writer.close();
+        //startging from java 7 new try() that automatically closes writer is available
+        try (Writer writer = new FileWriter(file)) {
+            writer.write(json);
+            //it will be automatically closed in this try block
+//            writer.close();
+        }
 
     }
 
@@ -75,19 +78,25 @@ public class GroupDataGenerator {
         xStream.alias("group", GroupData.class);
         xStream.processAnnotations(GroupData.class);
         String xml = xStream.toXML(groups);
-        Writer writer = new FileWriter(file);
-        writer.write(xml);
-        writer.close();
+        //startging from java 7 new try() that automatically closes writer is available
+        try (Writer writer = new FileWriter(file)) {
+            writer.write(xml);
+            //it will be automatically closed in this try block
+//            writer.close();
+        }
 
     }
 
     private void saveAsCsv(List<GroupData> groups, File file) throws IOException {
         System.out.println(new File(".").getAbsolutePath());
-        Writer writer = new FileWriter(file);
+        //startging from java 7 new try() that automatically closes writer is available
+        try (Writer writer = new FileWriter(file)) {
         for (GroupData group : groups) {
             writer.write(String.format("%s;%s;%s\n", group.getGroupName(), group.getHeader(), group.getFooter()));
         }
-        writer.close();
+            //it will be automatically closed in this try block
+//            writer.close();
+        }
     }
 
     private List<GroupData> generateGroups(int count) {

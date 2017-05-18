@@ -8,7 +8,7 @@
     <!--</classes>-->
     <!--</test>-->
     <test name="GroupModificationTests ChromeTest">
-        <parameter name="browser" value="Chrome"/>
+        <parameter name="browser" value="${browser}"/>
         <classes>
             <class name="prg.training.addressbook.tests.GroupModificationTests">
             </class>
