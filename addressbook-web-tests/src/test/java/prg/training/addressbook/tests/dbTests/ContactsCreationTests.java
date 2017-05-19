@@ -1,4 +1,4 @@
-package prg.training.addressbook.tests;
+package prg.training.addressbook.tests.dbTests;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -30,10 +30,9 @@ public class ContactsCreationTests extends TestBase {
 
     @Test(dataProvider = "Valid Contacts JSON Provider")
     public void addContactsTest(ContactsData contactsData) throws Exception {
-
         appManager().goTo().homePage(true);
-
-        Contacts before = appManager().contactHelper().allContacts();
+        //getting contacts from DB
+        Contacts before = appManager().getDbHelper().contacts();
         File photo = new File(getClass().getResource("/InputTestData/contact.jpg").toURI());
 //        File photo = new File("addressbook-web-tests/src/test/resources/InputTestData/contact.jpg");
         contactsData.withPhoto(photo);
@@ -41,7 +40,8 @@ public class ContactsCreationTests extends TestBase {
         appManager().goTo().homePage(false);
         // хеширование  - предварительная проверка при помощи более быстрой операции
         assertThat(appManager().contactHelper().getContactsCount(), equalTo(before.size() + 1));
-        Contacts after = appManager().contactHelper().allContacts();
+        //getting contacts from DB
+        Contacts after = appManager().getDbHelper().contacts();
         System.out.println("EXPECTED: " + before.withAdded(contactsData.withContactID(after.stream().mapToInt((c) -> c.getContactID()).max().getAsInt())));
         System.out.println(after);
         assertThat(after, equalTo(before.withAdded(contactsData.withContactID(after.stream().mapToInt((c) -> c.getContactID()).max().getAsInt()))));

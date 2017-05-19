@@ -5,7 +5,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import prg.training.addressbook.base.TestBase;
-import prg.training.addressbook.utils.DataModel.ContactsData;
+import prg.training.addressbook.utils.dataModel.ContactsData;
 
 import java.util.Comparator;
 import java.util.List;

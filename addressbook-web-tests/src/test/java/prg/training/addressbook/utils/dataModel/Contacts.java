@@ -1,7 +1,8 @@
-package prg.training.addressbook.utils.DataModel;
+package prg.training.addressbook.utils.dataModel;
 
 import com.google.common.collect.ForwardingSet;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +19,10 @@ public class Contacts extends ForwardingSet<ContactsData> {
 
     public Contacts() {
         this.delegate = new HashSet<ContactsData>();
+    }
+
+    public Contacts(Collection<ContactsData> contact) {
+        this.delegate = new HashSet<ContactsData>(contact);
     }
 
     @Override

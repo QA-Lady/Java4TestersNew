@@ -1,4 +1,4 @@
-package prg.training.addressbook.tests;
+package prg.training.addressbook.tests.dbTests;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -35,13 +35,13 @@ public class GroupCreationTests extends TestBase {
     public void groupCreationTest(GroupData groupsData) {
 
         appManager().goTo().groupsPage(true);
-
-        Groups before = appManager().groupHelper().allGroups();
+        //getting groups from DB
+        Groups before = appManager().getDbHelper().groups();
 //        int beforeNewGroupCreation = appManager.groupHelper().getGroupCount();
 
         appManager().groupHelper().createGroup(groupsData);
-
-        Groups after = appManager().groupHelper().allGroups();
+        //getting groups from DB
+        Groups after = appManager().getDbHelper().groups();
         assertThat(after.size(), equalTo(before.size() + 1));
         assertThat(after, equalTo(before.withAdded(groupsData.withGroupID(after.stream().mapToInt((g) -> g.getGroupID()).max().getAsInt()))));
     }

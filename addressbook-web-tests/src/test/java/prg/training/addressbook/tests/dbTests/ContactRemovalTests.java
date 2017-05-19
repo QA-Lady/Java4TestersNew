@@ -1,4 +1,4 @@
-package prg.training.addressbook.tests;
+package prg.training.addressbook.tests.dbTests;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.BeforeMethod;
@@ -20,7 +20,8 @@ public class ContactRemovalTests extends TestBase {
     private void preconditionsPrep() {
         appManager().goTo().homePage(true);
         int index = 5;
-        int contactsSize = appManager().contactHelper().getContactsCount();
+        //getting contacts from DB
+        int contactsSize = appManager().getDbHelper().contacts().size();
         if (contactsSize < index) {
             for (int i = 0; i <= index - contactsSize; i++) {
                 String firstname = "firstname" + (i + 1);
@@ -32,12 +33,14 @@ public class ContactRemovalTests extends TestBase {
 
     @Test
     public void deleteContact() {
-        Contacts before = appManager().contactHelper().allContacts();
+        //getting contacts from DB
+        Contacts before = appManager().getDbHelper().contacts();
         ContactsData deletedContact = before.iterator().next();
         appManager().contactHelper().deleteAndCheckSuccess(deletedContact);
         // хеширование  - предварительная проверка при помощи более быстрой операции
         assertThat(appManager().contactHelper().getContactsCount(), equalTo(before.size() - 1));
-        Contacts after = appManager().contactHelper().allContacts();
+        //getting contacts from DB
+        Contacts after = appManager().getDbHelper().contacts();
         assertThat(after, equalTo(before.without(deletedContact)));
     }
 

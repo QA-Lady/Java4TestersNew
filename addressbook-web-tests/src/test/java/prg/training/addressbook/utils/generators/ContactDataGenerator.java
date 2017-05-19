@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.thoughtworks.xstream.XStream;
 import org.apache.commons.lang3.RandomStringUtils;
-import prg.training.addressbook.utils.DataModel.ContactsData;
+import prg.training.addressbook.utils.dataModel.ContactsData;
 
 import java.io.File;
 import java.io.FileWriter;

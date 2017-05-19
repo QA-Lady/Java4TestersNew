@@ -5,7 +5,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import prg.training.addressbook.base.TestBase;
-import prg.training.addressbook.utils.DataModel.ContactsData;
+import prg.training.addressbook.utils.dataModel.ContactsData;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,4 +1,4 @@
-package prg.training.addressbook.tests;
+package prg.training.addressbook.tests.dbTests;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -19,7 +19,8 @@ public class GroupRemovalTests extends TestBase {
     private void preconditionsPrep() {
         appManager().goTo().groupsPage(true);
         int index = 5;
-        int groupsSize = appManager().groupHelper().getGroups().size();
+        //getting groups from DB
+        int groupsSize = appManager().getDbHelper().groups().size();
         if (groupsSize < index) {
             for (int i = 0; i <= index - groupsSize; i++) {
                 String groupName = "Group " + (i + 1);
@@ -32,12 +33,14 @@ public class GroupRemovalTests extends TestBase {
 
     @Test
     public void deleteGroup() {
-        Groups beforeGroupRemoval = appManager().groupHelper().allGroups();
+        //getting groups from DB
+        Groups beforeGroupRemoval = appManager().getDbHelper().groups();
         GroupData deletedGroup = beforeGroupRemoval.iterator().next();
         appManager().groupHelper().deleteByIdAndCheckSuccess(deletedGroup);
         // хеширование  - предварительная проверка при помощи более быстрой операции
         assertThat(appManager().groupHelper().getGroupCount(), equalTo(beforeGroupRemoval.size() - 1));
-        Groups afterGroupRemoval = appManager().groupHelper().allGroups();
+        //getting groups from DB
+        Groups afterGroupRemoval = appManager().getDbHelper().groups();
         assertThat(afterGroupRemoval, equalTo(beforeGroupRemoval.without(deletedGroup)));
     }
 

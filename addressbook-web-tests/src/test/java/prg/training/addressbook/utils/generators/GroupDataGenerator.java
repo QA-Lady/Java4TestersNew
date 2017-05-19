@@ -6,7 +6,7 @@ import com.beust.jcommander.ParameterException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.thoughtworks.xstream.XStream;
-import prg.training.addressbook.utils.DataModel.GroupData;
+import prg.training.addressbook.utils.dataModel.GroupData;
 
 import java.io.File;
 import java.io.FileWriter;

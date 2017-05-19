@@ -5,9 +5,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import prg.training.addressbook.base.HelperBase;
 import prg.training.addressbook.base.TestBase;
-import prg.training.addressbook.utils.DataModel.GroupData;
-import prg.training.addressbook.utils.DataModel.Groups;
 import prg.training.addressbook.utils.appManager.AppManager;
+import prg.training.addressbook.utils.dataModel.GroupData;
+import prg.training.addressbook.utils.dataModel.Groups;
 
 import java.util.List;
 

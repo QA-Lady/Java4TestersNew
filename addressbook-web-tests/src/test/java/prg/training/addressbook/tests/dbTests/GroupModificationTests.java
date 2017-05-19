@@ -1,4 +1,4 @@
-package prg.training.addressbook.tests;
+package prg.training.addressbook.tests.dbTests;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -19,7 +19,8 @@ public class GroupModificationTests extends TestBase {
     private void preconditionsPrep() {
         appManager().goTo().groupsPage(true);
         int index = 5;
-        int groupsSize = appManager().groupHelper().getGroups().size();
+        //getting groups from DB
+        int groupsSize = appManager().getDbHelper().groups().size();
         if (groupsSize < index) {
             for (int i = 0; i <= index - groupsSize; i++) {
                 String groupName = "Group " + (i + 1);
@@ -32,13 +33,19 @@ public class GroupModificationTests extends TestBase {
 
     @Test(dataProvider = "Group Name Provider")
     public void editGroupTest(String name) {
-        Groups beforeGroupEdit = appManager().groupHelper().allGroups();
+        //getting groups from GUI
+//        Groups beforeGroupEdit = appManager().groupHelper().allGroups();
+        //getting groups from DB
+        Groups beforeGroupEdit = appManager().getDbHelper().groups();
         GroupData modifiedGroup = beforeGroupEdit.iterator().next();
         GroupData group = new GroupData().withGroupID(modifiedGroup.getGroupID()).withGroupName(name).withHeader("header").withFooter("footer");
         appManager().groupHelper().editAndCheckSuccess(group);
         // хеширование  - предварительная проверка при помощи более быстрой операции
         assertThat(appManager().groupHelper().getGroupCount(), equalTo(beforeGroupEdit.size()));
-        Groups afterGroupEdit = appManager().groupHelper().allGroups();
+        //getting groups from GUI
+//        Groups afterGroupEdit = appManager().groupHelper().allGroups();
+        //getting groups from DB
+        Groups afterGroupEdit = appManager().getDbHelper().groups();
         assertThat(afterGroupEdit, equalTo(beforeGroupEdit.without(modifiedGroup).withAdded(group)));
     }
 

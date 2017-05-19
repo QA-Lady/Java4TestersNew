@@ -1,4 +1,4 @@
-package prg.training.addressbook.tests;
+package prg.training.addressbook.tests.dbTests;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.BeforeMethod;
@@ -14,13 +14,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Created by QA Lady on 3/29/2017.
  */
-public class ContactRemovalTests extends TestBase {
+public class ContactModificationTests extends TestBase {
 
     @BeforeMethod
     private void preconditionsPrep() {
         appManager().goTo().homePage(true);
-        int index = 5;
-        int contactsSize = appManager().contactHelper().getContactsCount();
+        int index = 8;
+        //getting contacts from DB
+        int contactsSize = appManager().getDbHelper().contacts().size();
         if (contactsSize < index) {
             for (int i = 0; i <= index - contactsSize; i++) {
                 String firstname = "firstname" + (i + 1);
@@ -30,23 +31,39 @@ public class ContactRemovalTests extends TestBase {
         }
     }
 
+
     @Test
-    public void deleteContact() {
-        Contacts before = appManager().contactHelper().allContacts();
-        ContactsData deletedContact = before.iterator().next();
-        appManager().contactHelper().deleteAndCheckSuccess(deletedContact);
+    public void editContact() {
+        //getting contacts from DB
+        Contacts before = appManager().getDbHelper().contacts();
+        ContactsData modifiedContact = before.iterator().next();
+        ContactsData contact = new ContactsData();
+        contact = modifiedContact.withFirstname("new firstname")
+                .withLastname("new lastname").withAddress("new address" + RandomStringUtils.randomAlphabetic(5))
+                .withHomeNumber(RandomStringUtils.randomNumeric(2))
+                .withMobileNumber(RandomStringUtils.randomNumeric(11))
+                .withEmail(RandomStringUtils.randomAlphanumeric(5) + "@ya.ru")
+                .withDay("5").withMonth("December").withYear("1975");
+
+        appManager().contactHelper().editAndCheckSuccess(contact);
         // хеширование  - предварительная проверка при помощи более быстрой операции
-        assertThat(appManager().contactHelper().getContactsCount(), equalTo(before.size() - 1));
-        Contacts after = appManager().contactHelper().allContacts();
-        assertThat(after, equalTo(before.without(deletedContact)));
-    }
+        assertThat(appManager().contactHelper().getContactsCount(), equalTo(before.size()));
+        //getting contacts from DB
+        Contacts after = appManager().getDbHelper().contacts();
 
+        System.out.println(before.without(modifiedContact).withAdded(contact));
+        System.out.println(after);
 
-    @DataProvider(name = "Contact Index Provider")
-    public static Object[][] indexProvider() {
-
-        return new Object[][]{{2}, {3}, {5}};
+        assertThat(after, equalTo(before.without(modifiedContact).withAdded(contact)));
 
     }
+
+
+    @DataProvider(name = "Contact Name Provider")
+    public static Object[][] nameProvider() {
+
+        return new Object[][]{{3}, {5}, {8}};
+    }
+
 
 }

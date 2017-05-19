@@ -1,48 +1,74 @@
-package prg.training.addressbook.utils.DataModel;
+package prg.training.addressbook.utils.dataModel;
 
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.*;
 import java.io.File;
 
+@Entity
+@Table(name = "addressbook")
 public class ContactsData {
     @XStreamOmitField
+    @Id
+    @Column(name = "id")
     private int contactID = Integer.MAX_VALUE;
     @Expose
+    @Column(name = "firstname")
     private String firstname;
     @Expose
+    @Column(name = "lastname")
     private String lastname;
     @Expose
+    @Column(name = "address")
+    @Type(type = "text")
     private String address;
     @Expose
+    @Column(name = "home")
+    @Type(type = "text")
     private String homeNumber;
     @Expose
+    @Column(name = "mobile")
+    @Type(type = "text")
     private String mobileNumber;
     @Expose
+    @Column(name = "work")
+    @Type(type = "text")
     private String workNumber;
+    @Transient //skip this and do not try to extract from DB
     private String allPhones;
     @Expose
+    @Column(name = "email")
+    @Type(type = "text")
     private String email;
     @Expose
+    @Transient //skip this and do not try to extract from DB
     private String group;
     @Expose
-    private String day;
+//    @Transient //skip this and do not try to extract from DB
+    @Column(name = "bday", columnDefinition = "TINYINT")
+    private Integer day;
     @Expose
+    @Column(name = "bmonth", length = 65535)
     private String month;
     @Expose
+    @Column(name = "byear", length = 65535)
     private String year;
 
+    @Column(name = "photo")
+    @Type(type = "text")
+    private String photo;
+
+
     public File getPhoto() {
-        return photo;
+        return new File(photo);
     }
 
     public ContactsData withPhoto(File photo) {
-        this.photo = photo;
+        this.photo = photo.getPath();
         return this;
     }
-
-    private File photo;
-
 
     public String getFirstname() {
         return firstname;
@@ -81,7 +107,7 @@ public class ContactsData {
     }
 
     public String getDay() {
-        return day;
+        return String.valueOf(day);
     }
 
     public String getMonth() {
@@ -137,7 +163,7 @@ public class ContactsData {
     }
 
     public ContactsData withDay(String day) {
-        this.day = day;
+        this.day = Integer.parseInt(day);
         return this;
     }
 
@@ -167,6 +193,15 @@ public class ContactsData {
                 "contactID=" + contactID +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
+                ", address='" + address + '\'' +
+                ", homeNumber='" + homeNumber + '\'' +
+                ", mobileNumber='" + mobileNumber + '\'' +
+                ", workNumber='" + workNumber + '\'' +
+                ", allPhones='" + allPhones + '\'' +
+                ", email='" + email + '\'' +
+                ", day=" + day +
+                ", month='" + month + '\'' +
+                ", year='" + year + '\'' +
                 '}';
     }
 
@@ -179,7 +214,16 @@ public class ContactsData {
 
         if (contactID != that.contactID) return false;
         if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
-        return lastname != null ? lastname.equals(that.lastname) : that.lastname == null;
+        if (lastname != null ? !lastname.equals(that.lastname) : that.lastname != null) return false;
+        if (address != null ? !address.equals(that.address) : that.address != null) return false;
+        if (homeNumber != null ? !homeNumber.equals(that.homeNumber) : that.homeNumber != null) return false;
+        if (mobileNumber != null ? !mobileNumber.equals(that.mobileNumber) : that.mobileNumber != null) return false;
+        if (workNumber != null ? !workNumber.equals(that.workNumber) : that.workNumber != null) return false;
+        if (allPhones != null ? !allPhones.equals(that.allPhones) : that.allPhones != null) return false;
+        if (email != null ? !email.equals(that.email) : that.email != null) return false;
+        if (day != null ? !day.equals(that.day) : that.day != null) return false;
+        if (month != null ? !month.equals(that.month) : that.month != null) return false;
+        return year != null ? year.equals(that.year) : that.year == null;
     }
 
     @Override
@@ -187,8 +231,15 @@ public class ContactsData {
         int result = contactID;
         result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
         result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (homeNumber != null ? homeNumber.hashCode() : 0);
+        result = 31 * result + (mobileNumber != null ? mobileNumber.hashCode() : 0);
+        result = 31 * result + (workNumber != null ? workNumber.hashCode() : 0);
+        result = 31 * result + (allPhones != null ? allPhones.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (day != null ? day.hashCode() : 0);
+        result = 31 * result + (month != null ? month.hashCode() : 0);
+        result = 31 * result + (year != null ? year.hashCode() : 0);
         return result;
     }
-
-
 }

@@ -7,9 +7,9 @@ import org.testng.Assert;
 import prg.training.addressbook.base.HelperBase;
 import prg.training.addressbook.base.TestBase;
 import prg.training.addressbook.tests.ContactPhoneTests;
-import prg.training.addressbook.utils.DataModel.Contacts;
-import prg.training.addressbook.utils.DataModel.ContactsData;
 import prg.training.addressbook.utils.appManager.AppManager;
+import prg.training.addressbook.utils.dataModel.Contacts;
+import prg.training.addressbook.utils.dataModel.ContactsData;
 
 import java.util.ArrayList;
 import java.util.Arrays;

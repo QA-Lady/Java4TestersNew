@@ -5,8 +5,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import prg.training.addressbook.base.TestBase;
-import prg.training.addressbook.utils.DataModel.Contacts;
-import prg.training.addressbook.utils.DataModel.ContactsData;
+import prg.training.addressbook.utils.dataModel.Contacts;
+import prg.training.addressbook.utils.dataModel.ContactsData;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
