@@ -6,6 +6,8 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "addressbook")
@@ -42,9 +44,11 @@ public class ContactsData {
     @Column(name = "email")
     @Type(type = "text")
     private String email;
-    @Expose
-    @Transient //skip this and do not try to extract from DB
-    private String group;
+    //    @Expose
+    @ManyToMany(fetch = FetchType.EAGER)//it is lazy by default we changed to eager to load all info from DB
+    @JoinTable(name = "address_in_groups", joinColumns = @JoinColumn(name = "id")//this is the column that refers to column for contact
+            , inverseJoinColumns = @JoinColumn(name = "group_id"))
+    private Set<GroupData> groups = new HashSet<GroupData>();
     @Expose
 //    @Transient //skip this and do not try to extract from DB
     @Column(name = "bday", columnDefinition = "TINYINT")
@@ -59,6 +63,7 @@ public class ContactsData {
     @Column(name = "photo")
     @Type(type = "text")
     private String photo;
+
 
 
     public File getPhoto() {
@@ -102,8 +107,8 @@ public class ContactsData {
         return email;
     }
 
-    public String getGroup() {
-        return group;
+    public Groups getGroups() {
+        return new Groups(groups);
     }
 
     public String getDay() {
@@ -157,11 +162,17 @@ public class ContactsData {
         return this;
     }
 
-    public ContactsData withGroup(String group) {
-        this.group = group;
-        return this;
+    public void withGroups(Set<GroupData> groups) {
+        this.groups = groups;
     }
 
+    public ContactsData inGroup(GroupData group) {
+        //addin group that was passed as a argument to groups where this contact belongs
+        groups.add(group);
+        //assign this group that pas passed as argument to a field group to be use in getGroup()
+        return this;
+
+    }
     public ContactsData withDay(String day) {
         this.day = Integer.parseInt(day);
         return this;
@@ -241,5 +252,12 @@ public class ContactsData {
         result = 31 * result + (month != null ? month.hashCode() : 0);
         result = 31 * result + (year != null ? year.hashCode() : 0);
         return result;
+    }
+
+    public ContactsData withGroup(GroupData group) {
+        //addin group that was passed as a argument to groups where this contact belongs
+        groups.add(group);
+        return this;
+
     }
 }

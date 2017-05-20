@@ -44,6 +44,7 @@ public class GroupCreationTests extends TestBase {
         Groups after = appManager().getDbHelper().groups();
         assertThat(after.size(), equalTo(before.size() + 1));
         assertThat(after, equalTo(before.withAdded(groupsData.withGroupID(after.stream().mapToInt((g) -> g.getGroupID()).max().getAsInt()))));
+        verifyGroupListInUI();
     }
 
     @DataProvider(name = "Valid Groups CSV Provider")

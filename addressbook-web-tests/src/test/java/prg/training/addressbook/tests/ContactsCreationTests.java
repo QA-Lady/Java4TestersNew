@@ -68,7 +68,7 @@ public class ContactsCreationTests extends TestBase {
             String line = reader.readLine();
             while (line != null) {
                 String[] split = line.split(";");
-                list.add(new Object[]{new ContactsData().withFirstname(split[0]).withLastname(split[1]).withAddress(split[2]).withHomeNumber(split[3]).withMobileNumber(split[4]).withWorkNumber(split[5]).withEmail(split[6]).withDay(split[7]).withMonth(split[8]).withYear(split[9]).withGroup(split[10])});
+                list.add(new Object[]{new ContactsData().withFirstname(split[0]).withLastname(split[1]).withAddress(split[2]).withHomeNumber(split[3]).withMobileNumber(split[4]).withWorkNumber(split[5]).withEmail(split[6]).withDay(split[7]).withMonth(split[8]).withYear(split[9])/*.withGroup(split[10])*/});
                 line = reader.readLine();
             }
         } catch (Exception e) {
@@ -117,7 +117,7 @@ public class ContactsCreationTests extends TestBase {
     @DataProvider(name = "ContactsInfo")
     public static Object[][] text() {
 
-        return new Object[][]{{new ContactsData().withFirstname("firstname1").withLastname("lastname1").withAddress("address1").withHomeNumber("1").withMobileNumber("7324678090").withWorkNumber(RandomStringUtils.randomNumeric(12)).withEmail("email1@ya.ru").withGroup("Group 1").withDay("5").withMonth("December").withYear("1975")}, {new ContactsData().withFirstname("firstname2").withLastname("lastname2").withAddress("address2").withHomeNumber("2").withMobileNumber("4446632467").withWorkNumber(RandomStringUtils.randomNumeric(12)).withEmail("email2@ya.ru").withGroup("Group 2").withDay("31").withMonth("August").withYear("2005")}, {new ContactsData().withFirstname("firstname3").withLastname("lastname3").withAddress("address3").withHomeNumber("3").withMobileNumber("456797123588").withWorkNumber(RandomStringUtils.randomNumeric(12)).withEmail("email3@ya.ru").withGroup("Group 3").withDay("18").withMonth("February").withYear("1962")}};
+        return new Object[][]{{new ContactsData().withFirstname("firstname1").withLastname("lastname1").withAddress("address1").withHomeNumber("1").withMobileNumber("7324678090").withWorkNumber(RandomStringUtils.randomNumeric(12)).withEmail("email1@ya.ru")/*.withGroup("Group 1")*/.withDay("5").withMonth("December").withYear("1975")}, {new ContactsData().withFirstname("firstname2").withLastname("lastname2").withAddress("address2").withHomeNumber("2").withMobileNumber("4446632467").withWorkNumber(RandomStringUtils.randomNumeric(12)).withEmail("email2@ya.ru")/*.withGroup("Group 2")*/.withDay("31").withMonth("August").withYear("2005")}, {new ContactsData().withFirstname("firstname3").withLastname("lastname3").withAddress("address3").withHomeNumber("3").withMobileNumber("456797123588").withWorkNumber(RandomStringUtils.randomNumeric(12)).withEmail("email3@ya.ru")/*.withGroup("Group 3")*/.withDay("18").withMonth("February").withYear("1962")}};
 
     }
 }

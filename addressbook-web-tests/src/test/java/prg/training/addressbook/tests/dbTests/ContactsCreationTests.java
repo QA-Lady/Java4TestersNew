@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import prg.training.addressbook.base.TestBase;
 import prg.training.addressbook.utils.dataModel.Contacts;
 import prg.training.addressbook.utils.dataModel.ContactsData;
+import prg.training.addressbook.utils.dataModel.Groups;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -33,9 +34,14 @@ public class ContactsCreationTests extends TestBase {
         appManager().goTo().homePage(true);
         //getting contacts from DB
         Contacts before = appManager().getDbHelper().contacts();
+        //Getting all groups from DB
+        Groups groups = appManager().getDbHelper().groups();
+        //assign group to a contact
+        contactsData.inGroup(groups.iterator().next());
         File photo = new File(getClass().getResource("/InputTestData/contact.jpg").toURI());
 //        File photo = new File("addressbook-web-tests/src/test/resources/InputTestData/contact.jpg");
         contactsData.withPhoto(photo);
+
         appManager().contactHelper().createContact(contactsData, false);
         appManager().goTo().homePage(false);
         // хеширование  - предварительная проверка при помощи более быстрой операции
@@ -45,7 +51,7 @@ public class ContactsCreationTests extends TestBase {
         System.out.println("EXPECTED: " + before.withAdded(contactsData.withContactID(after.stream().mapToInt((c) -> c.getContactID()).max().getAsInt())));
         System.out.println(after);
         assertThat(after, equalTo(before.withAdded(contactsData.withContactID(after.stream().mapToInt((c) -> c.getContactID()).max().getAsInt()))));
-
+        verifyContactListInUI();
     }
 
     @Test
@@ -68,7 +74,7 @@ public class ContactsCreationTests extends TestBase {
             String line = reader.readLine();
             while (line != null) {
                 String[] split = line.split(";");
-                list.add(new Object[]{new ContactsData().withFirstname(split[0]).withLastname(split[1]).withAddress(split[2]).withHomeNumber(split[3]).withMobileNumber(split[4]).withWorkNumber(split[5]).withEmail(split[6]).withDay(split[7]).withMonth(split[8]).withYear(split[9]).withGroup(split[10])});
+                list.add(new Object[]{new ContactsData().withFirstname(split[0]).withLastname(split[1]).withAddress(split[2]).withHomeNumber(split[3]).withMobileNumber(split[4]).withWorkNumber(split[5]).withEmail(split[6]).withDay(split[7]).withMonth(split[8]).withYear(split[9])/*.withGroup(split[10])*/});
                 line = reader.readLine();
             }
         } catch (Exception e) {
@@ -96,7 +102,7 @@ public class ContactsCreationTests extends TestBase {
     }
 
     @DataProvider(name = "Valid Contacts JSON Provider")
-    public Iterator<Object[]> validContactsJson() throws IOException, URISyntaxException {
+    public Iterator<Object[]> validContactsJson() throws Exception {
         //next try block makes sure that reader is  automatically closed at the end
         try (BufferedReader reader = new BufferedReader(new FileReader(new File(getClass().getResource("/InputTestData/Contacts.json").toURI())))) {
             String json = "";
@@ -110,6 +116,9 @@ public class ContactsCreationTests extends TestBase {
             List<ContactsData> Contacts = gson.fromJson(json, new TypeToken<List<ContactsData>>() {
             }.getType()); //List<ContactsData>.class
             return Contacts.stream().map((c) -> new Object[]{c}).collect(Collectors.toList()).iterator();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception(e.getMessage());
         }
 
     }
@@ -117,7 +126,7 @@ public class ContactsCreationTests extends TestBase {
     @DataProvider(name = "ContactsInfo")
     public static Object[][] text() {
 
-        return new Object[][]{{new ContactsData().withFirstname("firstname1").withLastname("lastname1").withAddress("address1").withHomeNumber("1").withMobileNumber("7324678090").withWorkNumber(RandomStringUtils.randomNumeric(12)).withEmail("email1@ya.ru").withGroup("Group 1").withDay("5").withMonth("December").withYear("1975")}, {new ContactsData().withFirstname("firstname2").withLastname("lastname2").withAddress("address2").withHomeNumber("2").withMobileNumber("4446632467").withWorkNumber(RandomStringUtils.randomNumeric(12)).withEmail("email2@ya.ru").withGroup("Group 2").withDay("31").withMonth("August").withYear("2005")}, {new ContactsData().withFirstname("firstname3").withLastname("lastname3").withAddress("address3").withHomeNumber("3").withMobileNumber("456797123588").withWorkNumber(RandomStringUtils.randomNumeric(12)).withEmail("email3@ya.ru").withGroup("Group 3").withDay("18").withMonth("February").withYear("1962")}};
+        return new Object[][]{{new ContactsData().withFirstname("firstname1").withLastname("lastname1").withAddress("address1").withHomeNumber("1").withMobileNumber("7324678090").withWorkNumber(RandomStringUtils.randomNumeric(12)).withEmail("email1@ya.ru")/*.withGroup("Group 1")*/.withDay("5").withMonth("December").withYear("1975")}, {new ContactsData().withFirstname("firstname2").withLastname("lastname2").withAddress("address2").withHomeNumber("2").withMobileNumber("4446632467").withWorkNumber(RandomStringUtils.randomNumeric(12)).withEmail("email2@ya.ru")/*.withGroup("Group 2")*/.withDay("31").withMonth("August").withYear("2005")}, {new ContactsData().withFirstname("firstname3").withLastname("lastname3").withAddress("address3").withHomeNumber("3").withMobileNumber("456797123588").withWorkNumber(RandomStringUtils.randomNumeric(12)).withEmail("email3@ya.ru")/*.withGroup("Group 3")*/.withDay("18").withMonth("February").withYear("1962")}};
 
     }
 }

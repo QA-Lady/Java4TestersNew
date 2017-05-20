@@ -42,6 +42,7 @@ public class GroupRemovalTests extends TestBase {
         //getting groups from DB
         Groups afterGroupRemoval = appManager().getDbHelper().groups();
         assertThat(afterGroupRemoval, equalTo(beforeGroupRemoval.without(deletedGroup)));
+        verifyGroupListInUI();
     }
 
 

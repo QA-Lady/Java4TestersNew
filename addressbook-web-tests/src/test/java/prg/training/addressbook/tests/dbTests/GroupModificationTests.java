@@ -47,6 +47,7 @@ public class GroupModificationTests extends TestBase {
         //getting groups from DB
         Groups afterGroupEdit = appManager().getDbHelper().groups();
         assertThat(afterGroupEdit, equalTo(beforeGroupEdit.without(modifiedGroup).withAdded(group)));
+        verifyGroupListInUI();
     }
 
 

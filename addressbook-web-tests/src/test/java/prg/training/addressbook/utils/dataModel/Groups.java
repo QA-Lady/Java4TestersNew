@@ -41,4 +41,10 @@ public class Groups extends ForwardingSet<GroupData> {
         groups.remove(group);
         return groups;
     }
+
+    public Groups getUnique(Groups groups2remove) {
+        Groups groups = new Groups(this);
+        groups.removeAll(groups2remove);
+        return groups;
+    }
 }

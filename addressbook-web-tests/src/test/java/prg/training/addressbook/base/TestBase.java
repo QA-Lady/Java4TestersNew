@@ -9,12 +9,20 @@ import org.testng.annotations.*;
 import prg.training.addressbook.utils.NavigationHelper;
 import prg.training.addressbook.utils.appManager.AppManager;
 import prg.training.addressbook.utils.appManager.WebDriverProvider;
+import prg.training.addressbook.utils.dataModel.Contacts;
+import prg.training.addressbook.utils.dataModel.ContactsData;
+import prg.training.addressbook.utils.dataModel.GroupData;
+import prg.training.addressbook.utils.dataModel.Groups;
 
 import java.io.File;
 import java.io.FileReader;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Properties;
+import java.util.stream.Collectors;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Created by QA Lady on 3/26/2017.
@@ -99,4 +107,30 @@ public abstract class TestBase {
     }
 
 
+    public void verifyGroupListInUI() {
+//        from edit configuration set -DverifyUI=true in the VM options to run this check
+        //makes the system setting to be boolean
+        if (Boolean.getBoolean("verifyUI")) {
+            //getting groups from DB
+            Groups dbGroups = appManager().getDbHelper().groups();
+            //getting groups from GUI
+            Groups uIGroups = appManager().groupHelper().allGroups();
+            //with lambda function we are updating group object from DB to contain only Name & ID
+            // since it's the only thing available on Groups page (no header or footer
+            assertThat(uIGroups, equalTo(dbGroups.stream().map((g) -> new GroupData().withGroupID(g.getGroupID()).withGroupName(g.getGroupName())).collect(Collectors.toSet())));
+        }
+    }
+
+    public void verifyContactListInUI() {
+//        from edit configuration set -DverifyUI=true in the VM options to run this check
+        //makes the system setting to be boolean
+        if (Boolean.getBoolean("verifyUI")) {
+            //getting contacts from DB
+            Contacts dbContacts = appManager().getDbHelper().contacts();
+            //getting contacts from GUI
+            Contacts uIContacts = appManager().contactHelper().allContacts();
+            // need to check only those values from db that are available in gui, and don't have allPhones in uIContact
+            assertThat(uIContacts.stream().map((c) -> new ContactsData().withContactID(c.getContactID()).withFirstname(c.getFirstname()).withLastname(c.getLastname()).withAddress(c.getAddress()).withEmail(c.getEmail())).collect(Collectors.toSet()), equalTo(dbContacts.stream().map((c) -> new ContactsData().withContactID(c.getContactID()).withFirstname(c.getFirstname()).withLastname(c.getLastname()).withAddress(c.getAddress()).withEmail(c.getEmail())).collect(Collectors.toSet())));
+        }
+    }
 }

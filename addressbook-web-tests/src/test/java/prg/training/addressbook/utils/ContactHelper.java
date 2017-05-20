@@ -59,9 +59,13 @@ public class ContactHelper extends HelperBase {
     }
 
     public void selectGroup4Contact(ContactsData contactsData, boolean contactCreation) {
-        String groupID = contactsData.getGroup();
-        if (groupID != null) {
+
+        int groupsSize = contactsData.getGroups().size();
+        if (groupsSize > 0) {
             if (contactCreation) {
+                //we can select only 1 group dusing Contact Creation
+                Assert.assertTrue(groupsSize == 1);
+                String groupID = contactsData.getGroups().iterator().next().getGroupName();
                 Select groupSelect = new Select(getElement(By.name("new_group")));
                 groupSelect.selectByVisibleText(groupID);
             } else {
@@ -133,6 +137,13 @@ public class ContactHelper extends HelperBase {
 //        clickOn(cells.get(7).findElement(By.tagName("a")));
     }
 
+
+    public void selectContactById(ContactsData contact) {
+        int id = contact.getContactID();
+        //select checkbox
+        clickOn(By.xpath("//tr[@name='entry']//input[@value='" + id + "']"));
+    }
+
     public void createContact(ContactsData contactsData, boolean goToHomePage) {
         initContactCreation();
         completeContactsForm(contactsData);
@@ -185,9 +196,12 @@ public class ContactHelper extends HelperBase {
             String name = row.findElement(By.xpath("./td[3]")).getText();
             String lastname = row.findElement(By.xpath("./td[2]")).getText();
             int id = Integer.parseInt(row.findElement(By.tagName("input")).getAttribute("value"));
-            String allPhones = row.findElement(By.xpath("./td[6]")).getText();
+            String address = row.findElement(By.xpath("./td[4]")).getText();
             String email = row.findElement(By.xpath("./td[5]")).getText();
-            ContactsData contact = new ContactsData().withContactID(id).withFirstname(name).withLastname(lastname).withAllphones(allPhones).withEmail(email);
+            String allPhones = row.findElement(By.xpath("./td[6]")).getText();
+
+
+            ContactsData contact = new ContactsData().withContactID(id).withFirstname(name).withLastname(lastname).withAddress(address).withEmail(email).withAllphones(allPhones);
             contactsCache.add(contact);
         }
         return new Contacts(contactsCache);

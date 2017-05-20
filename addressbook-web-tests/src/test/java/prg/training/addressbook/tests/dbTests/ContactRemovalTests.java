@@ -42,6 +42,7 @@ public class ContactRemovalTests extends TestBase {
         //getting contacts from DB
         Contacts after = appManager().getDbHelper().contacts();
         assertThat(after, equalTo(before.without(deletedContact)));
+        verifyContactListInUI();
     }
 
 

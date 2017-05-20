@@ -17,21 +17,24 @@ dependencies {
     compile 'org.hibernate:hibernate-core:5.2.10.Final'
 }
 //for entire test run without groups
-test{
-    useTestNG{
+test {
+    useTestNG {
         suites "src/test/resources/testng.xml"
 //        suites "src/test/resources/testng-contacts.xml"
     }
 
-        if (project.hasProperty('browser')) {
-            //подстановки в груви выполняются только внутри двойных кавычек
-            systemProperty 'browser', "${browser}"
-        }
+    if (project.hasProperty('browser')) {
+        //подстановки в груви выполняются только внутри двойных кавычек
+        systemProperty 'browser', "${browser}"
+    }
+    if (project.hasProperty('verifyUI')) {
+        systemProperty 'verifyUI', "${verifyUI}"
+    }
 
 }
 
-task testGroups(type: Test){
-    useTestNG{
+task testGroups(type: Test) {
+    useTestNG {
         suites "src/test/resources/testng-groups.xml"
     }
 
@@ -43,15 +46,21 @@ task testGroups(type: Test){
         //подстановки в груви выполняются только внутри двойных кавычек
         systemProperty 'browser', "${browser}"
     }
+    if (project.hasProperty('verifyUI')) {
+        systemProperty 'verifyUI', "${verifyUI}"
+    }
 }
 
-task testContacts(type: Test){
-    useTestNG{
+task testContacts(type: Test) {
+    useTestNG {
         suites "src/test/resources/testng-contacts.xml"
     }
     if (project.hasProperty('target')) {
         //подстановки в груви выполняются только внутри двойных кавычек
         systemProperty 'target', "${target}"
+    }
+    if (project.hasProperty('verifyUI')) {
+        systemProperty 'verifyUI', "${verifyUI}"
     }
 
     beforeTest {
