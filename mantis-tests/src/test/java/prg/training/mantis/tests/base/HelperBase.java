@@ -14,10 +14,12 @@ import java.io.File;
  */
 public class HelperBase {
 
+    protected WebDriver driver;
     protected AppManager appManager;
 
     public HelperBase(AppManager appManager) {
         this.appManager = appManager;
+        this.driver = TestBase.getDriver();
     }
 
 

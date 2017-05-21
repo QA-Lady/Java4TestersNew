@@ -57,9 +57,11 @@ public class WebDriverProvider {
     }
 
     public static void quitDriver() {
-        for (WebDriver webDriver : drivers) {
-            webDriver.close();
-            webDriver.quit();
+        if (drivers.size() > 0) {
+            for (WebDriver webDriver : drivers) {
+                webDriver.close();
+                webDriver.quit();
+            }
         }
     }
 

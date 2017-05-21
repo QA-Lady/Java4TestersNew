@@ -6,7 +6,7 @@
        available to all subsequent configuration elements. -->
     <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>addressbook-web-tests/src/test/resources/logs/log-${bySecond}.log</file>
+        <file>mantis-tests/src/test/resources/logs/log-${bySecond}.log</file>
         <!-- set immediateFlush to false for much higher logging throughput -->
         <immediateFlush>true</immediateFlush>
         <!-- encoders are assigned the type

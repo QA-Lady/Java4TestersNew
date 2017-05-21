@@ -1,0 +1,59 @@
+365  [main] INFO  p.t.mantis.tests.base.TestBase - testRegistration with parameters [] - is started
+4482 [main] DEBUG o.s.smtp.server.CommandHandler - Added command: AUTH
+4482 [main] DEBUG o.s.smtp.server.CommandHandler - Added command: DATA
+4482 [main] DEBUG o.s.smtp.server.CommandHandler - Added command: EHLO
+4482 [main] DEBUG o.s.smtp.server.CommandHandler - Added command: HELO
+4483 [main] DEBUG o.s.smtp.server.CommandHandler - Added command: HELP
+4483 [main] DEBUG o.s.smtp.server.CommandHandler - Added command: MAIL
+4483 [main] DEBUG o.s.smtp.server.CommandHandler - Added command: NOOP
+4483 [main] DEBUG o.s.smtp.server.CommandHandler - Added command: QUIT
+4483 [main] DEBUG o.s.smtp.server.CommandHandler - Added command: RCPT
+4483 [main] DEBUG o.s.smtp.server.CommandHandler - Added command: RSET
+4483 [main] DEBUG o.s.smtp.server.CommandHandler - Added command: STARTTLS
+4483 [main] DEBUG o.s.smtp.server.CommandHandler - Added command: VRFY
+4483 [main] INFO  o.s.smtp.server.SMTPServer - SMTP server *:25 starting
+4487 [org.subethamail.smtp.server.ServerThread *:25] INFO  o.s.smtp.server.ServerThread - SMTP server *:25 started
+5493 [org.subethamail.smtp.server.Session-/127.0.0.1:57039] DEBUG org.subethamail.smtp.server.Session - SMTP connection from oscount.techsmith.com/127.0.0.1, new connection count: 1
+5493 [org.subethamail.smtp.server.Session-/127.0.0.1:57039] DEBUG org.subethamail.smtp.server.Session - Server: 220 m3800.fios-router.home ESMTP SubEthaSMTP 3.1.7
+5493 [org.subethamail.smtp.server.Session-/127.0.0.1:57039] DEBUG org.subethamail.smtp.server.Session - Client: EHLO localhost
+5494 [org.subethamail.smtp.server.Session-/127.0.0.1:57039] DEBUG org.subethamail.smtp.server.Session - Server: 250-m3800.fios-router.home
+250-8BITMIME
+250 Ok
+5494 [org.subethamail.smtp.server.Session-/127.0.0.1:57039] DEBUG org.subethamail.smtp.server.Session - Client: MAIL FROM:<admin@example.com>
+5500 [org.subethamail.smtp.server.Session-/127.0.0.1:57039] DEBUG org.subethamail.smtp.server.Session - Server: 250 Ok
+5501 [org.subethamail.smtp.server.Session-/127.0.0.1:57039] DEBUG org.subethamail.smtp.server.Session - Client: RCPT TO:<user1495328104412@localhost.localdomain>
+5501 [org.subethamail.smtp.server.Session-/127.0.0.1:57039] DEBUG org.subethamail.wiser.Wiser - Accepting mail from admin@example.com to user1495328104412@localhost.localdomain
+5501 [org.subethamail.smtp.server.Session-/127.0.0.1:57039] DEBUG org.subethamail.smtp.server.Session - Server: 250 Ok
+5501 [org.subethamail.smtp.server.Session-/127.0.0.1:57039] DEBUG org.subethamail.smtp.server.Session - Client: DATA
+5501 [org.subethamail.smtp.server.Session-/127.0.0.1:57039] DEBUG org.subethamail.smtp.server.Session - Server: 354 End data with <CR><LF>.<CR><LF>
+5505 [org.subethamail.smtp.server.Session-/127.0.0.1:57039] DEBUG org.subethamail.wiser.Wiser - Delivering mail from admin@example.com to user1495328104412@localhost.localdomain
+5506 [org.subethamail.smtp.server.Session-/127.0.0.1:57039] DEBUG org.subethamail.wiser.Wiser - Creating message from data with 1213 bytes
+5507 [org.subethamail.smtp.server.Session-/127.0.0.1:57039] DEBUG org.subethamail.smtp.server.Session - Server: 250 Ok
+5507 [org.subethamail.smtp.server.Session-/127.0.0.1:57039] DEBUG org.subethamail.smtp.server.Session - Client: RSET
+5507 [org.subethamail.smtp.server.Session-/127.0.0.1:57039] DEBUG org.subethamail.smtp.server.Session - Server: 250 Ok
+5508 [org.subethamail.smtp.server.Session-/127.0.0.1:57039] DEBUG org.subethamail.smtp.server.Session - Client: quit
+5508 [org.subethamail.smtp.server.Session-/127.0.0.1:57039] DEBUG org.subethamail.smtp.server.Session - Server: 221 Bye
+5512 [org.subethamail.smtp.server.Session-/127.0.0.1:57040] DEBUG org.subethamail.smtp.server.Session - SMTP connection from oscount.techsmith.com/127.0.0.1, new connection count: 1
+5512 [org.subethamail.smtp.server.Session-/127.0.0.1:57040] DEBUG org.subethamail.smtp.server.Session - Server: 220 m3800.fios-router.home ESMTP SubEthaSMTP 3.1.7
+5514 [org.subethamail.smtp.server.Session-/127.0.0.1:57040] DEBUG org.subethamail.smtp.server.Session - Client: EHLO localhost
+5514 [org.subethamail.smtp.server.Session-/127.0.0.1:57040] DEBUG org.subethamail.smtp.server.Session - Server: 250-m3800.fios-router.home
+250-8BITMIME
+250 Ok
+5514 [org.subethamail.smtp.server.Session-/127.0.0.1:57040] DEBUG org.subethamail.smtp.server.Session - Client: MAIL FROM:<admin@example.com>
+5514 [org.subethamail.smtp.server.Session-/127.0.0.1:57040] DEBUG org.subethamail.smtp.server.Session - Server: 250 Ok
+5515 [org.subethamail.smtp.server.Session-/127.0.0.1:57040] DEBUG org.subethamail.smtp.server.Session - Client: RCPT TO:<root@localhost>
+5515 [org.subethamail.smtp.server.Session-/127.0.0.1:57040] DEBUG org.subethamail.wiser.Wiser - Accepting mail from admin@example.com to root@localhost
+5515 [org.subethamail.smtp.server.Session-/127.0.0.1:57040] DEBUG org.subethamail.smtp.server.Session - Server: 250 Ok
+5515 [org.subethamail.smtp.server.Session-/127.0.0.1:57040] DEBUG org.subethamail.smtp.server.Session - Client: DATA
+5515 [org.subethamail.smtp.server.Session-/127.0.0.1:57040] DEBUG org.subethamail.smtp.server.Session - Server: 354 End data with <CR><LF>.<CR><LF>
+5515 [org.subethamail.smtp.server.Session-/127.0.0.1:57040] DEBUG org.subethamail.wiser.Wiser - Delivering mail from admin@example.com to root@localhost
+5516 [org.subethamail.smtp.server.Session-/127.0.0.1:57040] DEBUG org.subethamail.wiser.Wiser - Creating message from data with 932 bytes
+5516 [org.subethamail.smtp.server.Session-/127.0.0.1:57040] DEBUG org.subethamail.smtp.server.Session - Server: 250 Ok
+5516 [org.subethamail.smtp.server.Session-/127.0.0.1:57040] DEBUG org.subethamail.smtp.server.Session - Client: RSET
+5516 [org.subethamail.smtp.server.Session-/127.0.0.1:57040] DEBUG org.subethamail.smtp.server.Session - Server: 250 Ok
+5517 [org.subethamail.smtp.server.Session-/127.0.0.1:57040] DEBUG org.subethamail.smtp.server.Session - Client: quit
+5517 [org.subethamail.smtp.server.Session-/127.0.0.1:57040] DEBUG org.subethamail.smtp.server.Session - Server: 221 Bye
+7339 [main] INFO  o.s.smtp.server.SMTPServer - SMTP server *:25 stopping
+7339 [main] DEBUG o.s.smtp.server.ServerThread - SMTP Server socket shut down
+7339 [org.subethamail.smtp.server.ServerThread *:25] INFO  o.s.smtp.server.ServerThread - SMTP server *:25 stopped
+7341 [main] INFO  p.t.mantis.tests.base.TestBase - testRegistration - is complete

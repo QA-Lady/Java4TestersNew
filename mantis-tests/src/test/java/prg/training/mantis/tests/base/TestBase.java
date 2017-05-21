@@ -10,10 +10,9 @@ import prg.training.mantis.utils.appmanager.AppManager;
 import prg.training.mantis.utils.appmanager.WebDriverProvider;
 
 import java.io.File;
-import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.Properties;
 
 /**
  * Created by QA Lady on 5/20/2017.
@@ -25,32 +24,27 @@ public abstract class TestBase {
     protected static final ThreadLocal<AppManager> threadLocalAppManager = new ThreadLocal<AppManager>();
     protected static ThreadLocal<String> threadLocalBrowser = new ThreadLocal<>();
     public static WebDriverWait wait;
-    public Properties properties = new Properties();
     public static String baseUrl;
-    public static final String URL_HOME = "http://localhost/mantisbt-2.4.0/";
+    public static final String URL_HOME = "http://localhost/mantisbt-1.2.20/";
+    public static String currentUrl = null;
+    private static String browser;
 
     public static WebDriver getDriver() {
-        return WebDriverProvider.getDriver(threadLocalBrowser.get(), false);
+        WebDriver driver = WebDriverProvider.getDriver(threadLocalBrowser.get(), false);
+        //assigning wait values to be used in explicit waits
+        wait = new WebDriverWait(driver, 10);
+        return driver;
     }
 
-    public AppManager appManager() {
-        return threadLocalAppManager.get();
-    }
-
-    @BeforeMethod(alwaysRun = true)
-    @Parameters("browser")
-    public void setUp(@Optional String browser) throws Exception {
+    public static void getBaseUrl() {
         if (StringUtils.isNotEmpty(System.getProperty("browser"))) {
             browser = System.getProperty("browser");
             //in vm options (run configurations) -Dbrowser=chrome or  if from command line -P is used for parameter: for suite -Psuite=testng_not_parallel_run.xml
         } else if (StringUtils.isEmpty(browser) || "${browser}".equals(browser)) {
             browser = WebDriverProvider.DRIVER_DEFAULT;
         }
-        String target = System.getProperty("target", "local");
-        File file = new File(getClass().getResource(String.format("/props/%s.properties", target)).toURI());
-        properties.load(new FileReader(file));
 
-        String currentUrl = null;
+
         String testBrowser = threadLocalBrowser.get();
         if (testBrowser == null || !testBrowser.equals(browser)) {
             // Browser is not set yet or changed for test
@@ -62,23 +56,31 @@ public abstract class TestBase {
             } catch (Exception ignored) {
                 // Driver is not responding
             }
-
-        }
-        baseUrl = properties.getProperty("web.baseUrl");
-        if (StringUtils.isEmpty(baseUrl)) {
-            baseUrl = URL_HOME;
         }
         if (currentUrl == null || !currentUrl.startsWith(baseUrl)) {
             getDriver().manage().window().maximize();
             getDriver().get(baseUrl);
-            //
-            AppManager appManager = new AppManager();
-            threadLocalAppManager.set(appManager);
-            appManager().init();
         }
+    }
 
-        //assigning wait values to be used in explicit waits
-        wait = new WebDriverWait(getDriver(), 10);
+    public AppManager appManager() {
+        return threadLocalAppManager.get();
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    @Parameters("browser")
+    public void setUp(@Optional String browser) throws Exception {
+        this.browser = browser;
+        AppManager appManager = new AppManager();
+        threadLocalAppManager.set(appManager);
+        appManager().init();
+        //
+        baseUrl = appManager().getProperty("web.baseUrl");
+        if (StringUtils.isEmpty(baseUrl)) {
+            baseUrl = URL_HOME;
+        }
+        appManager().ftp().upload(new File("mantis-tests/src/test/resources/config_inc.php"), "config_inc.php", "config_inc.php.bak");
+
     }
 
     @BeforeMethod
@@ -93,7 +95,8 @@ public abstract class TestBase {
     }
 
     @AfterSuite(alwaysRun = true)
-    public void tearDown() {
+    public void tearDown() throws IOException {
+        appManager().ftp().restore("config_inc.php.bak", "config_inc.php");
         WebDriverProvider.quitDriver();
     }
 

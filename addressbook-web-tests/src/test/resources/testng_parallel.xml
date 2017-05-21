@@ -1,25 +1,22 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Test Suite" data-provider-thread-count="1" thread-count="3" parallel="tests" preserve-order="true"
-       group-by-instances="true">
-    <test name="GroupCreationTests ChromeTest">
+<suite name="Test Suite" data-provider-thread-count="1" thread-count="2" parallel="tests" preserve-order="true">
+    <test name="ChromeTests">
         <parameter name="browser" value="Chrome"/>
         <classes>
-            <class name="prg.training.addressbook.tests.GroupCreationTests">
-            </class>
+            <class name="prg.training.addressbook.tests.GroupModificationTests"/>
+            <class name="prg.training.addressbook.tests.GroupRemovalTests"/>
+            <class name="prg.training.addressbook.tests.GroupCreationTests"/>
         </classes>
     </test>
-    <test name="ContactsCreationTests ChromeTest">
-        <parameter name="browser" value="Chrome"/>
-        <classes>
-            <class name="prg.training.addressbook.tests.ContactsCreationTests">
-            </class>
-        </classes>
-    </test>
-    <test name="ContactRemovalTests Firefox">
+    <test name="Firefox tests">
         <parameter name="browser" value="firefox"/>
         <classes>
-            <class name="prg.training.addressbook.tests.ContactRemovalTests">
-            </class>
+            <class name="prg.training.addressbook.tests.ContactsCreationTests"/>
+            <class name="prg.training.addressbook.tests.ContactModificationTests"/>
+            <class name="prg.training.addressbook.tests.ContactRemovalTests"/>
+            <class name="prg.training.addressbook.tests.ContactPhoneTests"/>
+            <class name="prg.training.addressbook.tests.EmailTests"/>
+            <class name="prg.training.addressbook.tests.ContactDetailedPageTests"/>
         </classes>
     </test>
     <!--<test name="ContactModificationTests IE">-->
