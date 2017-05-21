@@ -1,17 +1,24 @@
 package prg.training.mantis.tests.base;
 
+import biz.futureware.mantis.rpc.soap.client.IssueData;
+import biz.futureware.mantis.rpc.soap.client.MantisConnectPortType;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.SkipException;
 import org.testng.annotations.*;
 import prg.training.mantis.utils.appmanager.AppManager;
 import prg.training.mantis.utils.appmanager.WebDriverProvider;
 
+import javax.xml.rpc.ServiceException;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.math.BigInteger;
+import java.net.MalformedURLException;
+import java.rmi.RemoteException;
 import java.util.Arrays;
 
 /**
@@ -43,7 +50,6 @@ public abstract class TestBase {
         } else if (StringUtils.isEmpty(browser) || "${browser}".equals(browser)) {
             browser = WebDriverProvider.DRIVER_DEFAULT;
         }
-
 
         String testBrowser = threadLocalBrowser.get();
         if (testBrowser == null || !testBrowser.equals(browser)) {
@@ -80,6 +86,20 @@ public abstract class TestBase {
             baseUrl = URL_HOME;
         }
         appManager().ftp().upload(new File("mantis-tests/src/test/resources/config_inc.php"), "config_inc.php", "config_inc.php.bak");
+
+    }
+
+    public void skipIfNotFixed(int issueId) throws RemoteException, ServiceException, MalformedURLException {
+        if (isIssueOpen(issueId)) {
+            throw new SkipException("Ignored because of issue " + issueId);
+        }
+    }
+
+    public boolean isIssueOpen(int issueId) throws MalformedURLException, ServiceException, RemoteException {
+        MantisConnectPortType mc = appManager().soapHelper().getMantisConnect();
+        IssueData issueData = mc.mc_issue_get(appManager().getProperty("web.adminLogin"), appManager().getProperty("web.adminPassword"),
+                BigInteger.valueOf(issueId));
+        return !(issueData.getStatus().getName().equals("closed") || issueData.getStatus().getName().equals("resolved"));
 
     }
 

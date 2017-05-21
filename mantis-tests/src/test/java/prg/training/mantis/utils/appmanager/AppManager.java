@@ -24,6 +24,7 @@ public class AppManager {
     private FtpHelper ftp;
     private DbHelper dbHelper;
     private ChangeMantisPasswHelper changePasswHelper;
+    private SoapHelper soapHelper;
 
     public void init() throws URISyntaxException, IOException {
 
@@ -86,5 +87,11 @@ public class AppManager {
         return changePasswHelper;
     }
 
+    public SoapHelper soapHelper() {
+        if (soapHelper == null) {
+            soapHelper = new SoapHelper(this);
+        }
+        return soapHelper;
+    }
 
 }

@@ -39,6 +39,7 @@
 
         <!-- Names the annotated entity class -->
         <mapping class="prg.training.mantis.model.UserData"/>
+        <mapping class="prg.training.mantis.model.IssuesData"/>
 
     </session-factory>
 
