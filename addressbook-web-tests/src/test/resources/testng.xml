@@ -1,19 +1,19 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Test Suite" data-provider-thread-count="1" thread-count="1" parallel="none" preserve-order="true">
-    <!--<test name="GroupCreationTests ChromeTest">-->
-    <!--<parameter name="browser" value="Chrome"/>-->
-    <!--<classes>-->
-    <!--<class name="prg.training.addressbook.tests.GroupCreationTests">-->
-    <!--</class>-->
-    <!--</classes>-->
-    <!--</test>-->
-    <test name="GroupModificationTests ChromeTest">
-        <parameter name="browser" value="${browser}"/>
+    <test name="GroupCreationTests ChromeTest">
+        <parameter name="browser" value="Chrome"/>
         <classes>
-            <class name="prg.training.addressbook.tests.GroupModificationTests">
+            <class name="prg.training.addressbook.tests.GroupCreationTests">
             </class>
         </classes>
     </test>
+    <!--<test name="GroupModificationTests ChromeTest">-->
+    <!--<parameter name="browser" value="${browser}"/>-->
+    <!--<classes>-->
+    <!--<class name="prg.training.addressbook.tests.GroupModificationTests">-->
+    <!--</class>-->
+    <!--</classes>-->
+    <!--</test>-->
     <!--<test name="GroupRemovalTests ChromeTest">-->
     <!--<parameter name="browser" value="Chrome"/>-->
     <!--<classes>-->
@@ -28,13 +28,13 @@
     <!--</class>-->
     <!--</classes>-->
     <!--</test>-->
-    <!--<test name="ContactRemovalTests Firefox">-->
-    <!--<parameter name="browser" value="firefox"/>-->
-    <!--<classes>-->
-    <!--<class name="prg.training.addressbook.tests.ContactRemovalTests">-->
-    <!--</class>-->
-    <!--</classes>-->
-    <!--</test>-->
+    <test name="ContactRemovalTests Firefox">
+        <parameter name="browser" value="firefox"/>
+        <classes>
+            <class name="prg.training.addressbook.tests.ContactRemovalTests">
+            </class>
+        </classes>
+    </test>
     <!--<test name="ContactsCreationTests Firefox">-->
     <!--<parameter name="browser" value="firefox"/>-->
     <!--<classes>-->
