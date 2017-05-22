@@ -48,6 +48,7 @@ public class WebDriverProvider {
             try {
                 driver = new RemoteWebDriver(new URL(TestBase.properties.getProperty("selenium.server")), capabilities);
             } catch (MalformedURLException e) {
+                System.out.println("URL provided is not correct");
                 e.printStackTrace();
             }
         } else {

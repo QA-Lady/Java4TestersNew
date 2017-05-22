@@ -17,7 +17,6 @@ import prg.training.addressbook.utils.dataModel.Groups;
 import java.io.File;
 import java.io.FileReader;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.Properties;
 import java.util.stream.Collectors;
@@ -38,7 +37,7 @@ public abstract class TestBase {
     public static String baseUrl;
     public static String target;
 
-    public static WebDriver getDriver() throws MalformedURLException {
+    public static WebDriver getDriver() {
         return WebDriverProvider.getDriver(threadLocalBrowser.get(), false);
     }
 
