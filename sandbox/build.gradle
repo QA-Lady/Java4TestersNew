@@ -5,6 +5,10 @@ mainClassName = "prg.training.FirstJavaClass"
 repositories {
     mavenCentral()
 }
+test{
+    useTestNG ()
+}
+
 
 dependencies {
     compile 'org.testng:testng:6.8.7'
