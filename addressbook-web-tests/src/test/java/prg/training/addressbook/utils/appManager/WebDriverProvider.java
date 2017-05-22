@@ -1,6 +1,7 @@
 package prg.training.addressbook.utils.appManager;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxBinary;
@@ -9,9 +10,13 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.Optional;
+import prg.training.addressbook.base.TestBase;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +31,7 @@ public class WebDriverProvider {
     private static List<WebDriver> drivers = new ArrayList<>();
     private DesiredCapabilities capabilities = new DesiredCapabilities();
 
-    private static WebDriver createAndConfigDriver(@Optional String browser) {
+    private static WebDriver createAndConfigDriver(@Optional String browser) throws MalformedURLException {
         WebDriver driver;
         if (StringUtils.isEmpty(browser) || BrowserType.FIREFOX.equals(browser)) {
             FirefoxProfile firefoxProfile = new FirefoxProfile(/*new File("C:/WORK/Training/Profiles/Firefox/")*/);
@@ -36,6 +41,11 @@ public class WebDriverProvider {
             driver = new ChromeDriver();
         } else if (BrowserType.IE.equalsIgnoreCase(browser)) {
             driver = new InternetExplorerDriver();
+        } else if (StringUtils.equals(TestBase.target, "remote") && StringUtils.isNotEmpty(TestBase.properties.getProperty("selenium.server"))) {
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+            capabilities.setBrowserName(browser);
+            capabilities.setPlatform(Platform.fromString(System.getProperty("platform", "win7")));
+            driver = new RemoteWebDriver(new URL(TestBase.properties.getProperty("selenium.server")), capabilities);
         } else {
             System.out.println("Wrong value was provided for argument browser '" + browser + "'");
             System.out.println("Will default to FireFox driver with new profile");
@@ -48,7 +58,7 @@ public class WebDriverProvider {
         return driver;
     }
 
-    public static WebDriver getDriver(@Optional String browser, boolean forceCreate) {
+    public static WebDriver getDriver(@Optional String browser, boolean forceCreate) throws MalformedURLException {
         WebDriver driver = threadLocalDriver.get();
         if (driver == null || forceCreate) {
             driver = createAndConfigDriver(browser);

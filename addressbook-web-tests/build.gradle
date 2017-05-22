@@ -32,6 +32,14 @@ test {
         systemProperty 'browser', "${browser}"
     }
 
+    if (project.hasProperty("platform")) {
+        systemProperty 'platform', "${platform}"
+    }
+
+    if (project.hasProperty("target")) {
+        systemProperty 'target', "${target}"
+    }
+
     if (project.hasProperty('suite')) {
         systemProperty 'suite', "${suite}"
     }
@@ -52,6 +60,9 @@ task testGroups(type: Test) {
         //подстановки в груви выполняются только внутри двойных кавычек
         systemProperty 'target', "${target}"
     }
+    if (project.hasProperty("platform")) {
+        systemProperty 'platform', "${platform}"
+    }
     if (project.hasProperty('browser')) {
         //подстановки в груви выполняются только внутри двойных кавычек
         systemProperty 'browser', "${browser}"
@@ -69,14 +80,17 @@ task testContacts(type: Test) {
         //подстановки в груви выполняются только внутри двойных кавычек
         systemProperty 'target', "${target}"
     }
+    if (project.hasProperty("platform")) {
+        systemProperty 'platform', "${platform}"
+    }
     if (project.hasProperty('verifyUI')) {
         systemProperty 'verifyUI', "${verifyUI}"
     }
 
-    beforeTest {
+//    beforeTest {
         if (project.hasProperty('browser')) {
             //подстановки в груви выполняются только внутри двойных кавычек
             systemProperty 'browser', "${browser}"
         }
-    }
+//    }
 }

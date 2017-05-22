@@ -33,8 +33,9 @@ public abstract class TestBase {
     protected static final ThreadLocal<AppManager> threadLocalAppManager = new ThreadLocal<AppManager>();
     protected static ThreadLocal<String> threadLocalBrowser = new ThreadLocal<>();
     public static WebDriverWait wait;
-    public Properties properties = new Properties();
+    public static Properties properties = new Properties();
     public static String baseUrl;
+    public static String target;
 
     public static WebDriver getDriver() {
         return WebDriverProvider.getDriver(threadLocalBrowser.get(), false);
@@ -53,7 +54,7 @@ public abstract class TestBase {
         } else if (StringUtils.isEmpty(browser) || "${browser}".equals(browser)) {
             browser = WebDriverProvider.DRIVER_DEFAULT;
         }
-        String target = System.getProperty("target", "local");
+        target = System.getProperty("target", "local");
         File file = new File(getClass().getResource(String.format("/props/%s.properties", target)).toURI());
         properties.load(new FileReader(file));
 
